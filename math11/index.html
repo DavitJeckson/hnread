@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<title>初一数学代数思想网页课件</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFF7E6; --bg2:#E6F4F1; --card:#FFFFFF; --ink:#1A2E2A; --muted:#5A6D68; --line:#E8DDC3;
+  --teal:#0F766E; --teal2:#14B8A6; --coral:#E85D3F; --yellow:#F2B705; --yellow-soft:#FEF3C7; --teal-soft:#CCFBF1; --coral-soft:#FFE4DC;
+  --green:#15803D; --red:#DC2626; --radius:18px; --shadow:0 10px 30px rgba(26,46,42,.10);
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0F1D1A; --bg2:#132A26; --card:#1A2E2A; --ink:#F1F5F3; --muted:#A7B8B3; --line:#2E4A44; --yellow-soft:#3A2F0A; --teal-soft:#134E4A; --coral-soft:#431407; --shadow:0 10px 30px rgba(0,0,0,.35);}
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;font-family:"Noto Sans SC",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+a{color:var(--teal)}
+.wrap{max-width:980px;margin:0 auto;padding:16px 16px 64px}
+.hero{border-radius:24px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);background:var(--card)}
+.hero img{width:100%;display:block;height:auto}
+.hero-text{padding:20px 22px 22px}
+.hero-text h1{font-size:clamp(26px,5vw,40px);line-height:1.15;margin:0 0 8px;font-weight:900}
+.hero-text h1 span{color:var(--teal)}
+.hero-text p{margin:0;color:var(--muted);font-size:16px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.badge{font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;background:var(--teal-soft);color:var(--teal)}
+.badge.y{background:var(--yellow-soft);color:#92400E} @media(prefers-color-scheme:dark){.badge.y{color:#FDE68A}}
+.badge.c{background:var(--coral-soft);color:var(--coral)}
+.howto{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.howto div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.howto b{display:block;font-size:15px} .howto span{font-size:13px;color:var(--muted)}
+#lessons{margin-top:16px}
+body.focus-mode #lessons{margin-top:0}
+.progress-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:18px 0 16px;box-shadow:var(--shadow)}
+.progress-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.progress-bar{height:12px;background:var(--bg2);border-radius:999px;overflow:hidden;margin-top:10px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--teal2),var(--yellow));width:0%;transition:width .4s}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px}
+.nav button{border:1.5px solid var(--line);background:var(--card);color:var(--ink);padding:9px 13px;border-radius:999px;font-weight:700;cursor:pointer;font-family:inherit;font-size:14px}
+.nav button.active{background:var(--teal);color:#fff;border-color:var(--teal)}
+.nav button.done{border-color:var(--teal2)}
+.nav button.done::after{content:" ✓";color:var(--teal)}
+.lesson{display:none;background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}
+.lesson.active{display:block}
+.lesson-head{padding:22px 22px 6px;display:flex;gap:14px;align-items:flex-start}
+.num{flex:0 0 auto;width:52px;height:52px;border-radius:14px;background:var(--teal);color:#fff;display:grid;place-items:center;font-family:"Baloo 2",sans-serif;font-size:26px;font-weight:800}
+.lesson-head h2{margin:0;font-size:clamp(22px,4vw,30px);line-height:1.25}
+.lesson-head p{margin:4px 0 0;color:var(--muted)}
+.lesson-body{padding:8px 22px 22px}
+.idea{background:var(--yellow-soft);border-radius:14px;padding:14px 16px;font-weight:700;margin:12px 0}
+.idea small{display:block;font-weight:500;color:var(--muted)}
+.visual{background:var(--bg2);border-radius:16px;padding:16px;margin:14px 0;text-align:center}
+.visual svg{max-width:100%;height:auto}
+.example{border:1.5px dashed var(--teal2);border-radius:14px;padding:14px 16px;margin:14px 0}
+.example h3,.quiz h3{margin:0 0 6px;font-size:17px}
+.formula{font-family:"Baloo 2","Noto Sans SC",sans-serif;font-size:22px;font-weight:800;letter-spacing:.02em;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 14px;text-align:center;margin:10px 0}
+.audio-box{background:#0F766E;color:#fff;border-radius:16px;padding:16px;margin:16px 0}
+.audio-box h3{margin:0 0 4px} .audio-box p{margin:0 0 10px;opacity:.9;font-size:14px}
+audio{width:100%}
+details{margin-top:10px} summary{cursor:pointer;font-weight:700}
+details p{font-size:14px;opacity:.95}
+.quiz{border-top:2px solid var(--line);padding-top:18px;margin-top:18px}
+.q{margin:16px 0}
+.q p{font-weight:700;margin:0 0 10px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:12px;text-align:left;cursor:pointer;font-family:inherit;font-size:15px;font-weight:600}
+.opt:hover{border-color:var(--teal)}
+.opt.correct{background:#DCFCE7;border-color:var(--green);color:#14532D}
+.opt.wrong{background:#FEE2E2;border-color:var(--red);color:#7F1D1D}
+@media(prefers-color-scheme:dark){.opt.correct{background:#14532D;color:#DCFCE7}.opt.wrong{background:#450A0A;color:#FECACA}}
+.fill{display:flex;gap:10px;flex-wrap:wrap}
+.fill input{flex:1;min-width:180px;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;font-family:inherit}
+.btn{background:var(--coral);color:#fff;border:none;padding:12px 18px;border-radius:12px;font-weight:800;cursor:pointer;font-family:inherit}
+.btn.secondary{background:var(--teal)}
+.feedback{margin-top:10px;padding:10px 12px;border-radius:10px;display:none;font-weight:700}
+.feedback.show{display:block}
+.feedback.ok{background:#DCFCE7;color:#14532D} .feedback.no{background:#FEF3C7;color:#92400E}
+@media(prefers-color-scheme:dark){.feedback.ok{background:#14532D;color:#DCFCE7}.feedback.no{background:#451A03;color:#FDE68A}}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:20px;flex-wrap:wrap}
+.pager button{flex:1;min-width:140px}
+.challenge{border-top:3px dashed var(--yellow);padding-top:18px;margin-top:22px}
+.challenge-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.challenge-head h3{margin:0;font-size:19px}
+.challenge-head span{font-size:12px;font-weight:800;background:var(--coral);color:#fff;padding:3px 10px;border-radius:999px}
+.challenge-tip{color:var(--muted);font-size:14px;margin:6px 0 4px}
+.ch-card{border:1.5px solid var(--line);border-radius:16px;padding:16px;margin:14px 0;background:var(--bg)}
+.ch-top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.ch-top b{font-size:16px;color:var(--teal)}
+.ch-stars{color:var(--yellow);letter-spacing:2px;font-size:15px}
+.ch-prob{font-weight:700;margin:10px 0 12px;font-size:16px}
+.ch-draft{width:100%;min-height:64px;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font-family:inherit;font-size:15px;resize:vertical}
+.ch-actions{margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.ch-hint{font-size:13px;color:var(--muted)}
+.ch-sol{display:none;margin-top:14px;background:var(--card);border:1.5px solid var(--teal2);border-radius:14px;padding:14px 16px}
+.ch-sol.open{display:block}
+.ch-sol h4{margin:12px 0 6px;font-size:16px;color:var(--teal)}
+.ch-sol h4:first-child{margin-top:0}
+.ch-sol ol{margin:6px 0 6px 20px;padding:0}
+.ch-sol li{margin:5px 0}
+.ch-idea{background:var(--yellow-soft);border-radius:10px;padding:10px 12px;font-weight:600}
+.ch-ans{background:var(--teal-soft);border-radius:10px;padding:10px 12px;font-weight:800}
+.ch-audio{background:var(--teal);color:#fff;border-radius:12px;padding:12px 14px;margin-bottom:12px}
+.ch-audio h4{margin:0 0 4px!important;color:#fff!important}
+.ch-audio p{margin:0 0 8px;font-size:13px;opacity:.92}
+.ch-audio audio{width:100%}
+.ch-audio .ch-audio-status{font-size:13px;font-weight:700;margin-top:6px;min-height:1.2em}
+.page{display:none;background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}
+.page.active{display:block}
+.page-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+.page-badge{font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px;background:var(--teal-soft);color:var(--teal)}
+.page-badge.warn{background:var(--yellow-soft);color:#92400E}
+.page-badge.done{background:#DCFCE7;color:#14532D}
+@media(prefers-color-scheme:dark){.page-badge.warn{color:#FDE68A}.page-badge.done{background:#14532D;color:#DCFCE7}}
+.gate{margin-top:16px;border:1.5px dashed var(--teal2);border-radius:14px;padding:14px 16px;background:var(--bg)}
+.gate.done{border-style:solid;border-color:var(--green);background:#DCFCE7;color:#14532D}
+@media(prefers-color-scheme:dark){.gate.done{background:#14532D;color:#DCFCE7}}
+.gate p{margin:0 0 10px;font-weight:700}
+.gate .hint{font-size:13px;color:var(--muted);font-weight:500}
+.page-pager{display:flex;justify-content:space-between;gap:12px;margin-top:20px;flex-wrap:wrap;align-items:center}
+.page-pager button{flex:1;min-width:130px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.nav button:disabled{opacity:.45;cursor:not-allowed}
+.nav button.locked::after{content:" 🔒";font-size:12px}
+.start-btn{margin-top:14px}
+.audio-status{font-size:14px;font-weight:700;margin-top:8px}
+.final{display:none;background:var(--teal);color:#fff;border-radius:20px;padding:22px;margin-top:18px;text-align:center}
+.final.show{display:block}
+.final h2{margin:0 0 6px}
+footer{color:var(--muted);font-size:13px;text-align:center;margin-top:28px}
+@media(max-width:680px){.howto{grid-template-columns:1fr}.opts{grid-template-columns:1fr}.lesson-head,.lesson-body{padding-left:16px;padding-right:16px}}
+.focus-hidden{display:none!important}
+.study-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.study-stat{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.study-stat b{display:block;font-size:17px;line-height:1.3;font-variant-numeric:tabular-nums}
+.study-stat span{font-size:12px;color:var(--muted);font-weight:700}
+.storage-line{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px;font-size:13px;color:var(--muted)}
+.storage-dot{width:8px;height:8px;border-radius:99px;background:var(--teal2);display:inline-block;flex:0 0 auto}
+.storage-dot.off{background:var(--coral)}
+.progress-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.progress-actions button{border:1.5px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:999px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px}
+.progress-actions button.primary{background:var(--teal);color:#fff;border-color:var(--teal)}
+.progress-actions button.danger{border-color:var(--coral);color:var(--coral)}
+@media(max-width:680px){.study-stats{grid-template-columns:1fr 1fr}.study-stat:last-child{grid-column:1/-1}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero" id="heroBlock">
+    <img src="assets/hero.webp" alt="三位初中生在黑板前学习代数，黑板上有 3a=12、x+3=8、数轴和天平图">
+    <div class="hero-text">
+      <h1>从算术到代数<br><span>用字母打开数学新世界</span></h1>
+      <p>给刚上初一的你 · 初一上学期核心内容 · 9 节小课拆成 63 个小页，一页只学一件事：学完当前页才能进入下一页，专注不分心。每课的 3 道奥数题各占一页，翻到语音页讲解会自动播放；奥数题点开讲解后，讲解音频也会自动播放，边听边对照思考步骤。</p>
+      <div class="badges"><span class="badge">📄 一页一件事 · 学完才解锁下一页</span><span class="badge y">🎧 音频页自动播放</span><span class="badge c">🏆 奥数题一题一页（共 27 道）· 讲解带音频</span><span class="badge">📱 手机就能学</span></div>
+      <button class="btn start-btn" onclick="startLearning()">开始第一页 →</button>
+    </div>
+  </section>
+
+  <div class="howto" id="howtoBlock">
+    <div><b>① 一页只学一件事</b><span>每节课拆成 7 小页：图解例题 → 听讲解 → 选择题 → 填空题 → 3 道奥数各一页。当前页没学完，下一页不会打开。</span></div>
+    <div><b>② 音频自动播放</b><span>翻到“听讲解”那一页，语音会自动开始；听完一遍（播到结尾）才算学完这一页。</span></div>
+    <div><b>③ 奥数一题一页 · 讲解带音频</b><span>每道奥数题单独一页，先写思路，再点开讲解：讲解音频自动播放，边听边对照思考步骤、代数思想和灵活运用，看完才进入下一题。</span></div>
+  </div>
+
+  <main id="lessons"></main>
+
+  <div class="progress-card">
+    <div class="progress-top"><strong>我的学习进度</strong><span id="progressText">已完成 0 / 63 页 · 答对 0 / 18 题</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="study-stats" aria-label="学习时长统计">
+      <div class="study-stat"><b id="totalTimeText">0 分钟</b><span>累计学习时长 · 本机记录</span></div>
+      <div class="study-stat"><b id="sessionTimeText">0 分钟</b><span>本次学习时长</span></div>
+      <div class="study-stat"><b id="lastStudyText">还没开始</b><span>上次学习时间</span></div>
+    </div>
+    <div class="storage-line"><span class="storage-dot" id="storageDot"></span><span id="storageStatus">正在打开本地记录（IndexedDB）…</span><span id="visitText"></span></div>
+    <div class="progress-actions">
+      <button class="primary" onclick="resumeLearning()">▶ 继续上次进度</button>
+      <button onclick="downloadRecord()">⬇ 导出学习记录</button>
+      <button class="danger" id="clearBtn" onclick="clearProgress()">清除本地记录</button>
+    </div>
+    <p style="margin:10px 0 0;color:var(--muted);font-size:13px">进度、答对的题目、草稿和学习时长都自动保存在这台设备的浏览器里（IndexedDB），关掉页面再打开会自动恢复；换一台设备不会同步。目录里带 🔒 的课还没解锁：按顺序学完前面的页，它就会自动打开。已经学完的页可以随时点回去复习。</p>
+  </div>
+
+  <nav class="nav" id="lessonNav" aria-label="课程目录"></nav>
+
+  <div class="final" id="finalBox">
+    <h2>🎉 全部完成！你已经拿到代数的入门钥匙</h2>
+    <p id="finalText"></p>
+    <p>复习秘诀：把每课的“核心思想”用自己的话讲给家人听一遍，能讲清楚，就是真的懂了。</p>
+  </div>
+
+  <footer>内容对应初一上学期：有理数 · 整式的加减 · 一元一次方程 · 几何图形初步 ｜ 9 课拆成 63 页顺序学习，每课随堂小测 + 3 道奥数挑战各一页（共 27 道）</footer>
+</div>
+
+<script>
+var LESSONS=[
+{id:1,title:"为什么要用字母？",sub:"代数思想的起点：从算具体的数，到表示一类数",idea:"核心思想：不知道的数，先用字母“占个座”。",ideaSub:"小学算的是一个答案，代数想的是所有答案背后的规律。",visual:"box",exampleTitle:"生活例子：神秘的糖果盒",example:"盒子里有糖果，你不知道有几颗。设为 x 颗，妈妈又放入 5 颗，现在就是 <b>x + 5</b> 颗。不管 x 是 10 还是 20，这个式子都成立——这就是代数比算术厉害的地方：一个式子，管一类问题。",formula:"具体：3 + 5 = 8　→　一般：x + 5",audio:"assets/lesson1.mp3",transcript:"同学们好，欢迎来到代数的世界。小学我们用具体的数字算账，比如三个苹果加两个苹果等于五个苹果。到了初中，我们会遇到不知道数量的情况，比如一个盒子里有几个苹果还不知道。这时候，数学家想了个好办法，用字母来代替不知道的数。这就是代数思想的核心：用字母表示数，把具体问题变成一般规律。学会它，你就能用一个式子，算出一百种情况。",mcq:{q:"用字母表示数，最大的好处是？",opts:["A. 写起来更快","B. 一个式子可以表示一类规律","C. 不用计算了","D. 看起来更高级"],ans:1,why:"对啦！字母能代表任意数，所以一个式子就能说清一类规律。"},fill:{q:"用字母 n 表示一个整数，那么偶数可以表示为 ______。（提示：偶数是 2 的倍数）",answers:["2n","2*n","n×2","2×n"],why:"偶数 = 2 × n，所以填 2n。"}},
+{id:2,title:"用字母表示数",sub:"买文具、算周长——把文字翻译成代数式",idea:"核心思想：把生活语言，翻译成数学语言。",ideaSub:"书写规则：数与字母相乘省略乘号，数字写前面，如 3×a 写成 3a；带分数要化成假分数。",visual:"rect",exampleTitle:"生活例子：文具店购物",example:"一支笔 3 元，买 a 支要花 <b>3a</b> 元；一个本子 5 元，买 b 个要花 5b 元，一共花 <b>3a + 5b</b> 元。a、b 换成任何数量，都不用重新想公式。",formula:"长方形面积：S = ab　·　周长：C = 2a + 2b",audio:"assets/lesson2.mp3",transcript:"用字母表示数，到底有多方便呢？比如去买文具，一支笔三元，买a支笔要花多少钱？答案就是三a元。这里的a可以是一，二，十，代表任意数量。再比如，长方形的长是a，宽是b，面积就是a乘b。记住两个小规则：数字和字母相乘，乘号可以省略，数字写在前面；字母和字母相乘，乘号也可以省略。这样写既简洁，又清楚。",mcq:{q:"一支笔 3 元，买 a 支笔的总价是？",opts:["A. 3 + a 元","B. a 元","C. 3a 元","D. 3 ÷ a 元"],ans:2,why:"总价 = 单价 × 数量 = 3a 元，乘号省略、数字在前。"},fill:{q:"长方形的长是 a，宽是 b，它的周长 C = ______。（填代数式，如 2a+2b）",answers:["2a+2b","2(a+b)","2a＋2b","2（a+b）"],why:"周长 = 2×长 + 2×宽 = 2a + 2b。"}},
+{id:3,title:"正数、负数与有理数",sub:"温度、收支、海拔——相反意义的量",idea:"核心思想：比 0 大是正，比 0 小是负，0 是分界线。",ideaSub:"0 既不是正数，也不是负数。整数和分数统称为有理数。",visual:"thermo",exampleTitle:"生活例子：天气与零花钱",example:"零上 5℃ 记作 <b>+5℃</b>，零下 3℃ 记作 <b>−3℃</b>；收到红包 +100 元，花掉奶茶 −18 元。账户变化一眼看清：正负数就是给数加上了“方向”。",formula:"+5（收入 / 零上）　↔　−5（支出 / 零下）",audio:"assets/lesson3.mp3",transcript:"生活中，很多量是有方向的。气温零上五度记作正五，零下三度记作负三。收入一百元记作正一百，支出五十元记作负五十。比零大的数叫正数，比零小的数叫负数，零既不是正数，也不是负数。整数和分数统称为有理数。用正负数，我们就能把相反意义的量，一次说清楚。",mcq:{q:"零下 3℃ 用正负数表示是？",opts:["A. 3℃","B. −3℃","C. +3℃","D. 0℃"],ans:1,why:"零下与零上是相反意义的量，零下记为负，所以是 −3℃。"},fill:{q:"如果收入 100 元记作 +100 元，那么支出 50 元记作 ______ 元。",answers:["-50","−50"],why:"支出与收入意义相反，记作 −50 元。"}},
+{id:4,title:"数轴、相反数、绝对值",sub:"把数画出来：位置、距离，一看就懂",idea:"核心思想：绝对值 = 到原点的距离，所以永远 ≥ 0。",ideaSub:"只有符号不同的两个数互为相反数，如 3 与 −3；它们在数轴上关于原点对称。",visual:"numberline",exampleTitle:"生活例子：在直尺上找位置",example:"把温度计横过来就是数轴。−4 在原点左边 4 格，它到原点的距离是 4，所以 <b>|−4| = 4</b>。距离没有负数，绝对值也就没有负数。",formula:"|−4| = 4　·　|0| = 0　·　|5| = 5",audio:"assets/lesson4.mp3",transcript:"把数画在一条直线上，就是数轴。原点代表零，向右是正数，向左是负数。任何有理数，都能在数轴上找到对应的点。只有符号不同的两个数，叫做互为相反数，比如三和负三。绝对值呢，就是一个数到原点的距离，所以绝对值永远不小于零。比如负四的绝对值是四，因为它离原点有四个单位。",mcq:{q:"−4 的绝对值是？",opts:["A. −4","B. 4","C. 0","D. −1/4"],ans:1,why:"绝对值是到原点的距离，−4 距原点 4 个单位，所以是 4。"},fill:{q:"5 的相反数是 ______。",answers:["-5","−5"],why:"只有符号不同的数互为相反数，5 的相反数是 −5。"}},
+{id:5,title:"有理数的运算",sub:"先定符号，再算绝对值",idea:"核心思想：减法变加法，除法变乘法，难题变熟题。",ideaSub:"减去一个数 = 加上它的相反数；同号相乘得正，异号相乘得负。",visual:"signs",exampleTitle:"生活例子：电梯与欠账",example:"在 5 楼又下降 7 层：5 + (−7) = <b>−2</b>，到了地下 2 层。欠朋友 3 元，又借了 4 元：(−3) + (−4) = <b>−7</b>，一共欠 7 元——同号相加，符号不变，绝对值相加。",formula:"(−3) + 5 = 2　·　7 − (−2) = 7 + 2 = 9　·　(−2) × (−3) = 6",audio:"assets/lesson5.mp3",transcript:"有了正负数，加减法也要有新规则。同号相加，取相同的符号，再把绝对值相加。异号相加，取绝对值较大的符号，再用大绝对值减小绝对值。减法更巧妙，减去一个数，等于加上它的相反数。乘法呢，同号得正，异号得负。记住口诀，先定符号，再算绝对值，就不会乱了。",mcq:{q:"(−3) + 5 的结果是？",opts:["A. −8","B. −2","C. 2","D. 8"],ans:2,why:"异号相加，取 5 的符号（正），用 5 − 3 = 2，所以结果是 2。"},fill:{q:"计算：7 − (−2) = ______。",answers:["9"],why:"减去 −2 等于加上 2，所以 7 + 2 = 9。"}},
+{id:6,title:"代数式与合并同类项",sub:"像整理书包一样整理式子：同类才能合并",idea:"核心思想：字母相同、指数也相同，才是同类项。",ideaSub:"合并同类项只加系数，字母和指数不变：3x + 5x = 8x。",visual:"terms",exampleTitle:"生活例子：水果分类",example:"3 个苹果 + 5 个苹果 = 8 个苹果；但 3 个苹果 + 5 个橘子，不能写成 8 个“苹橘”。代数里一样：<b>3x + 5x = 8x</b>，而 3x + 5y 不能合并，要原样保留。",formula:"3x + 5x − 2x = 6x　·　3x + 5y 不能合并",audio:"assets/lesson6.mp3",transcript:"像三a，五x加二y这样的式子，叫做代数式。里面有相同的字母，而且相同字母的指数也相同的项，叫做同类项。比如三x和五x是同类项，三x和三y就不是。合并同类项，就像整理东西，苹果和苹果放一起，橘子和橘子放一起，只把系数相加，字母和指数不变。这是化简代数式的第一步。",mcq:{q:"3x + 5x 合并同类项后是？",opts:["A. 8x²","B. 8x","C. 15x","D. 8"],ans:1,why:"系数相加 3 + 5 = 8，字母 x 不变，所以是 8x。"},fill:{q:"化简：4a + 3a − 2a = ______。",answers:["5a"],why:"系数 4 + 3 − 2 = 5，字母不变，结果是 5a。"}},
+{id:7,title:"一元一次方程",sub:"天平思想：两边同时动，天平才不歪",idea:"核心思想：等式两边同时加、减、乘、除同一个数，等式仍成立。",ideaSub:"只含一个未知数、未知数次数是 1 的方程，叫一元一次方程。",visual:"balance",exampleTitle:"生活例子：天平称糖果",example:"天平左边放一盒糖（x 克）+ 3 克砝码，右边 8 克，天平平衡：<b>x + 3 = 8</b>。想知道盒子多重？两边同时拿走 3 克，左边只剩盒子：<b>x = 5</b>。解方程就是这样一步步“拆包装”。",formula:"x + 3 = 8　→　x + 3 − 3 = 8 − 3　→　x = 5",audio:"assets/lesson7.mp3",transcript:"方程，是代数最有力的工具。想象一个天平，左边放x加三克，右边放八克，天平平衡了。要求x，就要让左边只剩下x，两边同时减去三，x就等于五。这就是等式的性质：两边同时加、减、乘、除同一个数，等式仍然成立。解一元一次方程，就是一步步把天平整理成x等于一个数的样子。",mcq:{q:"方程 x + 3 = 8 的解是？",opts:["A. x = 3","B. x = 8","C. x = 5","D. x = 11"],ans:2,why:"两边同时减 3：x = 8 − 3 = 5。"},fill:{q:"方程 2x = 10 的解是 x = ______。",answers:["5"],why:"两边同时除以 2，x = 10 ÷ 2 = 5。"}},
+{id:8,title:"用方程解决实际问题",sub:"设、找、列、解、验、答——六步走天下",idea:"核心思想：实际问题 → 找等量关系 → 翻译成方程。",ideaSub:"行程、打折、年龄、配套问题，套路相同：未知数设对，等量关系找准。",visual:"steps",exampleTitle:"生活例子：买书一共花了 52 元",example:"一本书 + 12 元文具 = 52 元。设书的价格为 x 元，列方程 <b>x + 12 = 52</b>，解得 <b>x = 40</b>。检验：40 + 12 = 52 ✓。答：这本书 40 元。",formula:"设 x → 找等量关系 → 列方程 → 解方程 → 检验 → 作答",audio:"assets/lesson8.mp3",transcript:"学方程，最重要的是解决实际问题。比如小明去买书，一本书加上十二元的文具，一共花了五十二元，书多少钱？设书的价格是x元，列方程x加十二等于五十二，解得x等于四十。步骤是固定的：设未知数，找等量关系，列方程，解方程，最后检验并作答。行程、打折、年龄问题，都可以用这个方法。恭喜你，已经掌握了代数的入门钥匙！",mcq:{q:"一本书加 12 元文具共 52 元，设书价为 x，方程是？",opts:["A. x − 12 = 52","B. 12x = 52","C. x + 12 = 52","D. x ÷ 12 = 52"],ans:2,why:"等量关系是“书价 + 文具 = 总价”，所以 x + 12 = 52。"},fill:{q:"方程 3x = 27 的解是 x = ______。",answers:["9"],why:"两边同时除以 3，x = 27 ÷ 3 = 9。"}},
+{id:9,title:"几何里的代数",sub:"线段与角：把图形也翻译成代数式",idea:"核心思想：图形的长度和角度，也是可以用字母表示的量。",ideaSub:"线段分段、角的倍数关系，都先设 x，再用代数式表示其他部分，最后列方程。",visual:"geometry",exampleTitle:"生活例子：把一根彩带剪成两段",example:"一根彩带剪成两段，第一段长 x cm，第二段比第一段长 3 cm，就是 <b>x + 3</b> cm，整根彩带长 <b>2x + 3</b> cm。如果整根长 17 cm，列方程 2x + 3 = 17，解得 x = 7，第一段 7 cm，第二段 10 cm。",formula:"AB = AM + MB = x + (x + 3) = 2x + 3",audio:"assets/lesson9.mp3",transcript:"最后一课，我们看看几何里怎么用代数。线段和角，本质上也是数量。比如一条线段被分成两段，一段是x厘米，另一段比它长三厘米，就是x加三，两段合起来就是二x加三。再比如，一个角是另一个角的二倍，设小角是x度，大角就是二x度。把图形翻译成代数式，再列方程求解，这就是几何里的代数思想。图形加代数，初中数学的两条腿都站稳了。",mcq:{q:"线段 AB 被点 M 分成两段，AM = x，MB 比 AM 长 3，则 MB 是？",opts:["A. 3x","B. x + 3","C. x − 3","D. 3 − x"],ans:1,why:"“比 x 长 3”就是在 x 的基础上加 3，所以 MB = x + 3。"},fill:{q:"彩带总长 17 cm，方程 2x + 3 = 17 的解是 x = ______。",answers:["7"],why:"2x = 17 − 3 = 14，所以 x = 7。"}}
+
+];
+
+var CHALLENGES=[
+[
+{t:"找规律 · 猜通项",stars:"★★★",p:"观察数列：1，3，6，10，15，21，… 第 1 个数是 1，第 2 个数是 3，第 3 个数是 6。用 n 表示序号，写出第 n 个数，并求第 20 个数。",steps:["先看相邻两数的差：3−1=2，6−3=3，10−6=4，15−10=5——差一次比一次大 1，不是简单的倍数关系。","换个角度拆数：1=1，3=1+2，6=1+2+3，10=1+2+3+4，所以第 n 个数 = 1+2+3+…+n。","把这串加法首尾配对：1+n，2+(n−1)，… 每对都等于 n+1，一共有 n÷2 对，所以 1+2+…+n = n(n+1)/2。","代入 n=20：第 20 个数 = 20×21÷2 = 210。"],idea:"代数思想：从“算一个”升级到“表示一类”。遇到数列先别急着往后猜，把每个数拆开看结构，再用字母 n 写出通项公式，一次解决所有序号。",flex:"灵活运用：配对求和是这类题的通用武器。凡是 1+2+…+n、等差数列求和，都可以首尾配对；以后学三角形数、台阶总数还会再遇到它。",a:"答案：第 n 个数是 n(n+1)/2；第 20 个数是 210。"},
+{t:"火柴棍里的方程感",stars:"★★☆",p:"用火柴棍摆相连的三角形：摆 1 个用 3 根，摆 2 个用 5 根，摆 3 个用 7 根。（1）摆 n 个三角形需要多少根火柴？（2）如果有 101 根火柴，最多能摆多少个这样的三角形？",steps:["列表找规律：n=1→3 根，n=2→5 根，n=3→7 根，每多摆 1 个只多 2 根（因为新三角形和前一个共用一条边）。","第一个三角形是基础 3 根，后面每增加 1 个加 2 根，所以总数 = 3 + 2(n−1) = 2n+1。","反过来用：令 2n+1 = 101，解得 n = 50。注意这一步已经在用方程思想了——把“总数已知”变成等式求 n。","检验：2×50+1 = 101，正好用完。"],idea:"代数思想：正着用公式是“代入求值”，反着用公式是“列方程求未知数”。同一个式子 2n+1，顺用和逆用是两种完全不同的能力。",flex:"灵活运用：摆图形问题先数“第一个要几根、之后每个多几根”，总数 = 基础 + 增量×(n−1)，正方形、长方形相连摆法都适用。",a:"答案：（1）2n+1 根；（2）最多摆 50 个。"},
+{t:"奇数和的秘密",stars:"★★★",p:"观察：1=1²，1+3=4=2²，1+3+5=9=3²，1+3+5+7=16=4²。（1）写出 1+3+5+…+(2n−1) 等于多少；（2）不用逐个相加，求 1+3+5+…+199 的值。",steps:["先数个数：1 有 1 个奇数，和是 1²；到 3 有 2 个奇数，和是 2²；到 5 有 3 个奇数，和是 3²——和恰好是“奇数个数”的平方。","第 n 个奇数是 2n−1，所以前 n 个奇数的和 = n²，即 1+3+5+…+(2n−1) = n²。","199 是第几个奇数？由 2n−1 = 199 得 n = 100，说明一共有 100 个奇数相加。","所以原式 = 100² = 10000。"],idea:"代数思想：归纳猜想。用几个具体例子发现规律，再用字母把规律写成公式 n²，这就是从特殊到一般的代数思维。",flex:"灵活运用：看到一长串有规律的加法，先想办法数清“一共有几项”，再套用发现的公式，千万不要硬加。项数 = (末项−首项)÷公差 + 1 也常用。",a:"答案：（1）等于 n²；（2）原式 = 10000。"}
+],
+[
+{t:"整体代入",stars:"★★☆",p:"已知 2x − y = 4，求代数式 6x − 3y + 5 的值。注意：这里只有一个等式，却有两个未知数，不能分别求出 x 和 y，要想别的办法。",steps:["观察目标式：6x − 3y 里的 6x 是 2x 的 3 倍，−3y 是 −y 的 3 倍，整体正好是 (2x − y) 的 3 倍。","把目标式变形：6x − 3y + 5 = 3(2x − y) + 5。","把已知条件整体代入：3×4 + 5 = 17。整个过程不需要知道 x、y 各是多少。"],idea:"代数原理：整体思想。把 2x − y 看成一个整体（一个“打包好的量”），已知它的值，就能直接代入含有它的式子——这正是用字母表示数的威力。",flex:"灵活运用：凡是求值时“条件不够解出每个字母”，先盯着目标式找倍数关系：目标式是已知式的 2 倍、3 倍或一半时，整体代入最快。形式不同时先提取公因数再看。",a:"答案：17。"},
+{t:"三位数的表示",stars:"★★★",p:"一个三位数，百位数字是 a，十位数字是 b，个位数字是 c（a≠0）。（1）用代数式表示这个三位数；（2）把它的百位与个位交换得到一个新三位数，求原数与新数的差，并说明这个差为什么一定能被 99 整除。",steps:["关键一步：三位数不是 a+b+c，也不是 abc。百位上的 a 实际表示 a 个百，所以原数 = 100a + 10b + c。","交换百位与个位后，新数 = 100c + 10b + a。","作差：(100a+10b+c) − (100c+10b+a) = 99a − 99c = 99(a − c)。","因为 a − c 是整数，99(a−c) 一定是 99 的倍数，所以差一定能被 99 整除，与 b 无关。"],idea:"代数思想：数位表示法。每个数字的价值取决于它所在的位置，用 100a+10b+c 把“数”翻译成“式”，整除问题就变成了提取公因数的问题。",flex:"灵活运用：两位数写成 10a+b、三位数写成 100a+10b+c，是解决数字交换、数字和、整除证明的万能开头。交换后作差，十位往往会抵消。",a:"答案：（1）100a + 10b + c；（2）差 = 99(a − c)，一定能被 99 整除。"},
+{t:"边长变了，面积变多少",stars:"★★★",p:"一个正方形的边长是 a。如果把它的边长增加 3，得到一个更大的正方形。（1）新正方形的面积比原来多多少？请用画图（把大正方形切开）的方法说明，不要只背公式。（2）当 a = 5 时，面积增加了多少？",steps:["画图切割：大正方形边长 a+3。沿着原来小正方形的边延长切一刀，大正方形被分成 4 块：原来的 a×a、两个 a×3 的长方形、一个 3×3 的小正方形。","多出来的面积 = 两个长方形 + 角上的小正方形 = 3a + 3a + 9 = 6a + 9。","代入 a=5：6×5 + 9 = 39。","检验：原来面积 25，新面积 8²=64，64−25=39 ✓。"],idea:"代数原理：几何直观解释代数式。6a+9 不是凭空来的——6a 来自两条“边带”，9 来自角上的小方块。图能帮你理解式子里每一项的来源。",flex:"灵活运用：边长增加 k 时，多出的面积 = 2ka + k²（两条边带加一个角）。以后学完全平方公式 (a+3)² = a²+6a+9 时，你会发现它就是这张图。",a:"答案：（1）多 6a + 9；（2）a=5 时多 39。"}
+],
+[
+{t:"符号的规律",stars:"★★☆",p:"计算：(−1)¹ + (−1)² + (−1)³ + (−1)⁴ + … + (−1)²⁰²⁴ + (−1)²⁰²⁵，一共有 2025 项。不要硬算，想想 (−1) 的幂有什么规律。",steps:["先算前几项找规律：(−1)¹=−1，(−1)²=+1，(−1)³=−1，(−1)⁴=+1——指数是奇数得 −1，指数是偶数得 +1。","两两配对：(−1+1)=0，(−1+1)=0……从第 1 项到第 2024 项，正好 1012 对，每对和都是 0。","最后剩下第 2025 项：指数 2025 是奇数，这一项是 −1。","所以总和 = 0 + (−1) = −1。"],idea:"代数思想：周期与配对。负数的幂只有 −1、+1 两种结果，交替出现；抓住“奇负偶正”再配对，长串计算瞬间变短。",flex:"灵活运用：项数是偶数时这类和往往等于 0，项数是奇数时等于第一项。类似地，凡是 +1、−1 交替或周期重复的长计算，都先配对、再处理落单的一项。",a:"答案：−1。"},
+{t:"库存的正负账",stars:"★★☆",p:"某仓库原来存粮 500 吨。一周内运进记为正、运出记为负，记录如下：周一 +120，周二 −80，周三 −50，周四 +150，周五 −70（单位：吨）。（1）周五结束时仓库存粮多少吨？（2）这一周哪一天结束时存粮最多？",steps:["先算一周总变化：把正数合在一起 120+150=270，把负数合在一起 (−80)+(−50)+(−70)=−200，总变化 = 270 + (−200) = +70 吨。","周五存粮 = 500 + 70 = 570 吨。","逐天推：周一 620，周二 540，周三 490，周四 640，周五 570。最大的是周四结束时的 640 吨。","注意周三一度降到 490 吨，比原来还少——只看总变化会漏掉中间过程。"],idea:"代数思想：正负数是带方向的量。求最终结果可以只看总和，但问“哪天最多”必须逐步累加——同一个数据，问法不同，方法不同。",flex:"灵活运用：多个正负数相加时，先把同号数分别合并（正的归正的、负的归负的），比逐个硬算更快也不容易错；银行流水、体重变化、比赛积分都这样算。",a:"答案：（1）570 吨；（2）周四结束时最多，640 吨。"},
+{t:"不用算，先判断符号",stars:"★★★",p:"已知 a 是负数，b 是正数，并且 |a| ＞ |b|（比如 a=−5，b=2 就是这种情况）。不计算，判断下列各式的符号，并说明理由：（1）a + b；（2）a − b；（3）b − a。",steps:["先在数轴上定位：a 在原点左边且离原点较远，b 在原点右边且离原点较近。","（1）a+b：异号相加取绝对值较大的符号。|a| 更大，所以 a+b 是负数（如 −5+2=−3）。","（2）a−b：减去正数 b，等于加上 −b，结果比 a 还要往左，所以一定是负数（如 −5−2=−7）。","（3）b−a：减去负数 a，等于加上 |a|，结果是正数加上正数，一定是正数（如 2−(−5)=7）。"],idea:"代数原理：符号由数轴位置决定。异号相加看谁的绝对值大；减法先转化成加法再判断。先定性、后定量，是有理数运算不丢分的关键顺序。",flex:"灵活运用：拿不准时，先代入一组符合条件的具体数（如 a=−5，b=2）试一试验证符号，再写一般理由——用特例探路、用原理收尾，是奥数里常用的稳妥打法。",a:"答案：（1）负数；（2）负数；（3）正数。"}
+],
+[
+{t:"两个绝对值同时为零",stars:"★★☆",p:"已知 |x+2| + |y−3| = 0，求 x、y 的值，并进一步求 x − y 和 x·y 的值。",steps:["回忆原理：任何数的绝对值都 ≥ 0，所以 |x+2| ≥ 0，|y−3| ≥ 0。","两个非负数相加等于 0，只能两个同时等于 0（一个大于 0，和就不可能为 0）。","所以 x+2=0 得 x=−2；y−3=0 得 y=3。","代入求值：x − y = −2 − 3 = −5；x·y = (−2)×3 = −6。"],idea:"代数原理：非负数之和为零，则每个都为零。绝对值、平方都是非负的，看到“几个非负式相加等于 0”，直接拆开逐个令其为零。",flex:"灵活运用：以后遇到 |a|+|b|+…=0 或 ( )²+| |=0，都是同一招。反过来，要让绝对值等于一个负数是无解的，因为绝对值不可能为负。",a:"答案：x = −2，y = 3；x − y = −5，x·y = −6。"},
+{t:"脱掉绝对值的外套",stars:"★★★",p:"已知 −2 ＜ a ＜ 0（a 在数轴上位于 −2 和 0 之间）。化简：|a+2| + |a| − |a−3|。",steps:["化简绝对值的唯一方法：先判断里面是正还是负。由 −2＜a＜0 得 a+2＞0，所以 |a+2| = a+2。","a 本身是负数，所以 |a| = −a。","a−3 比 a 还小，肯定是负数，所以 |a−3| = −(a−3) = 3−a。","拼起来：(a+2) + (−a) − (3−a) = a+2−a−3+a = a − 1。","检验：取 a=−1，原式 = |1|+|−1|−|−4| = 1+1−4 = −2；a−1 = −2 ✓。"],idea:"代数思想：分类看符号。绝对值里面是正是负，决定了去掉绝对值时要不要变号。先定范围、再脱外套、最后合并同类项，三步不能乱。",flex:"灵活运用：化简前先在数轴上把 a 的范围画出来，逐个判断每个绝对值内部的符号。取一个范围内的具体数代入检验，是防止变号出错的好习惯。",a:"答案：a − 1。"},
+{t:"距离和的最小值",stars:"★★★",p:"数轴上点 x 要到点 −2 和点 3 去“报到”。用 |x+2| 表示 x 到 −2 的距离，用 |x−3| 表示 x 到 3 的距离。求 |x+2| + |x−3| 的最小值，并说明 x 在什么范围内时取到最小值。",steps:["把问题翻译成图形：|x+2|+|x−3| 就是数轴上一点到 −2 和 3 两点的距离之和。","−2 和 3 之间的距离是 5。如果 x 正好在 −2 和 3 之间（含两端），它到两点的距离之和恰好等于 5。","如果 x 跑到区间外面，比如 x=5，距离和 = 7+2 = 9 ＞ 5；x=−4 时 = 2+7 = 9 ＞ 5，多出来的正是跑出区间的“冤枉路”。","所以最小值是 5，当 −2 ≤ x ≤ 3 时取到。"],idea:"代数思想：绝对值的几何意义——距离。用代数式算很难，但画到数轴上看距离，答案一眼可见。数形结合是绝对值问题的第一选择。",flex:"灵活运用：|x−a|+|x−b| 的最小值就是 a、b 两点间的距离，在两点之间处处取到。以后求 |x−1|+|x+2|+|x−4| 这类多点问题，也是先排数轴、再看位置。",a:"答案：最小值是 5，当 −2 ≤ x ≤ 3 时取到。"}
+],
+[
+{t:"裂项相消",stars:"★★★",p:"计算：1/(1×2) + 1/(2×3) + 1/(3×4) + … + 1/(99×100)。一共有 99 个分数，直接通分是不可能的，必须找裂开的办法。",steps:["先研究一项怎么裂：1/(1×2) = 1 − 1/2；1/(2×3) = 1/2 − 1/3；一般地，1/[n(n+1)] = 1/n − 1/(n+1)。","把每一项都裂开：原式 = (1−1/2) + (1/2−1/3) + (1/3−1/4) + … + (1/99 − 1/100)。","中间项两两抵消：−1/2 与 +1/2 消，−1/3 与 +1/3 消……最后只剩第一项的 1 和最后一项的 −1/100。","所以原式 = 1 − 1/100 = 99/100。"],idea:"代数思想：裂项相消。把一项拆成两项的差，相邻项互相抵消，长串只剩头尾。拆之前先在草稿上验证 1/n − 1/(n+1) 确实等于 1/[n(n+1)]。",flex:"灵活运用：分母是相邻两数之积时想裂项；分母两数相差 k 时，1/[n(n+k)] = (1/k)(1/n − 1/(n+k))。高考、奥数里这类求和反复出现，方法完全一样。",a:"答案：99/100。"},
+{t:"配对求和",stars:"★★☆",p:"计算：1 − 2 + 3 − 4 + 5 − 6 + … + 99 − 100。",steps:["从前往后两两一组：(1−2) = −1，(3−4) = −1，(5−6) = −1，每组结果都是 −1。","数清组数：从 1 到 100 共 100 个数，两两一组共 50 组。","总和 = 50 × (−1) = −50。","小心：如果算式到 99 结束（奇数个项），会多出一组不完整，需要单独处理——先数项数再配对。"],idea:"代数思想：分组构造相同的小块。把杂乱的长算式切成结果相同的若干组，乘法代替逐个相加，这是简便运算的核心套路。",flex:"灵活运用：符号交替、大小相邻的算式适合配对；也可以换一种配法：首尾配对 (1−100)+(2−99)… 同样能做。一种配法卡住时，换个分组顺序往往就通了。",a:"答案：−50。"},
+{t:"新运算，按规则代入",stars:"★★★",p:"定义一种新运算：对任意有理数 a、b，规定 a⊙b = 2a − 3b。例如 4⊙1 = 2×4 − 3×1 = 5。求：（1）2⊙3；（2）(−5)⊙1；（3）[(2⊙3)]⊙1，也就是先算出第（1）题的结果，再拿它和 1 做 ⊙ 运算。",steps:["新运算没有新知识，本质就是代入公式：谁站在 a 的位置，谁就乘 2；谁站在 b 的位置，谁就乘 3 再减掉。","（1）2⊙3 = 2×2 − 3×3 = 4 − 9 = −5。","（2）(−5)⊙1 = 2×(−5) − 3×1 = −10 − 3 = −13。注意负数代入要带括号。","（3）由（1）得 2⊙3 = −5，再算 (−5)⊙1，就是第（2）题，结果 −13。"],idea:"代数思想：对应与代入。定义新运算的题目，规则就是临时的“公式”，按位置一一对应代入即可；多层运算从最里层往外算，和去括号的顺序一样。",flex:"灵活运用：遇到没见过的符号先别慌，抄下规则、标清 a 和 b 分别是谁。如果结果与顺序有关（如 a⊙b ≠ b⊙a），题目往往会让你比较——代入具体数一试便知。",a:"答案：（1）−5；（2）−13；（3）−13。"}
+],
+[
+{t:"同类项的双条件",stars:"★★☆",p:"已知 2xᵐy³ 与 −5x²yⁿ 是同类项（m、n 是指数里的小数字）。求 m、n 的值，并写出这两个单项式相加的结果。",steps:["同类项的定义有两个条件：字母相同，并且相同字母的指数也相同。两个条件缺一不可。","x 的指数：左边是 m，右边是 2，所以 m = 2。","y 的指数：左边是 3，右边是 n，所以 n = 3。","合并：2x²y³ + (−5x²y³) = (2−5)x²y³ = −3x²y³——只把系数相加，字母和指数原样保留。"],idea:"代数原理：同类项由“字母部分”完全决定，系数只是数量。判断同类项时先看字母部分是否一模一样，再谈合并。",flex:"灵活运用：指数藏在字母右上角最容易漏看。反过来，已知两个式子能合并，就能反推指数相等——这是用定义列等式求字母的典型手法。",a:"答案：m = 2，n = 3；相加得 −3x²y³。"},
+{t:"让某一类项消失",stars:"★★★",p:"把两个多项式相加：(3x² − mx + 4) + (−2x² + 3x − 1)。如果相加的结果中不含 x 的一次项，求 m 的值，并写出化简后的结果。",steps:["先老老实实合并同类项：x² 项：3x² − 2x² = x²；x 项：−mx + 3x = (3 − m)x；常数项：4 − 1 = 3。","所以和 = x² + (3 − m)x + 3。","“不含一次项”的意思不是把 x 删掉，而是它前面的系数等于 0：3 − m = 0。","解得 m = 3，此时结果为 x² + 3。"],idea:"代数思想：系数决定有无。一个项存不存在，看的是它的系数是不是 0。把文字条件“不含某项”翻译成“某项系数 = 0”，就得到了求字母的方程。",flex:"灵活运用：“不含某项”“结果与 x 无关”“化简后是常数”说的是同一件事：让含 x 的项系数全部为 0。以后求参数时，先合并、再令系数为零，两步走。",a:"答案：m = 3；化简结果为 x² + 3。"},
+{t:"不用解出 x 的求值",stars:"★★★",p:"已知 x² − 3x = 5，求 2x² − 6x + 1 的值。提醒：x 本身解出来很麻烦（要用到以后的知识），这道题有不需要解 x 的办法。",steps:["盯住目标式看结构：2x² − 6x 正好是 x² − 3x 的 2 倍（每一项都乘了 2）。","把目标式重组：2x² − 6x + 1 = 2(x² − 3x) + 1。","整体代入已知：2×5 + 1 = 11。","全程没有求 x——因为我们需要的不是 x，而是 x²−3x 这个整体的值，它恰好已知。"],idea:"代数思想：整体代入升级版。已知式和目标式之间有倍数关系时，把已知式打包代入。判断标准：目标式每一项的系数都是已知式的对应倍数。",flex:"灵活运用：如果倍数不整齐，先提取公因数或拆项凑出来，例如求 x²−3x+7 就是 5+7=12。整体思想在方程、函数里会反复出现，是代数高手的常用武器。",a:"答案：11。"}
+],
+[
+{t:"绝对值方程有两个解",stars:"★★☆",p:"解方程：|x − 2| = 5。想一想：哪个数减去 2 以后，到原点的距离是 5？",steps:["用几何意义想：|x−2| 表示 x 到 2 的距离（也可以先把 x−2 看成一个整体）。","设 A = x−2，则 |A| = 5 说明 A = 5 或 A = −5——绝对值等于正数时有两种可能，这是最容易漏的。","当 x−2 = 5 时，x = 7；当 x−2 = −5 时，x = −3。","检验：|7−2| = 5 ✓；|−3−2| = |−5| = 5 ✓。"],idea:"代数原理：|A| = 正数 ⇔ A 等于这个正数或它的相反数。解绝对值方程必须分类讨论，少一种情况就丢一半答案。",flex:"灵活运用：如果右边是 0，只有一个解（A=0）；如果右边是负数，无解。把 x−2 整体看作 A，是用整体思想简化分类的好办法。",a:"答案：x = 7 或 x = −3。"},
+{t:"带分数的方程",stars:"★★★",p:"解方程：(2x−1)/3 − (x+2)/6 = 1。分母不一样，先想办法把分母统一消掉。",steps:["找两个分母 3 和 6 的最小公倍数 6，等式两边同时乘 6——等式性质保证这样做等式仍成立。","左边第一项乘 6：(2x−1)/3 × 6 = 2(2x−1)，注意分子是一个整体，要加括号；第二项乘 6 得 (x+2)；右边 1×6 = 6。","方程变为：2(2x−1) − (x+2) = 6，去括号：4x − 2 − x − 2 = 6。","合并得 3x − 4 = 6，3x = 10，x = 10/3。代入原方程检验成立。"],idea:"代数原理：去分母的本质是等式两边同乘同一个数。最容易错的两处：分子多项式要加括号；右边的整数 1 也要乘公倍数，不能漏。",flex:"灵活运用：分母有小数时（如 0.2）可以先把每项乘 10 化成整数分母；分母是 2、3、4 时公倍数取 12。先化整、再去分母，方程立刻变清爽。",a:"答案：x = 10/3。"},
+{t:"已知解，反求字母",stars:"★★★",p:"已知 x = 3 是方程 2x + a = 5x − 4 的解。（1）求 a 的值；（2）用求出的 a 写出原方程，并检验 x=3 之外它还有没有别的解。",steps:["“x=3 是方程的解”翻译成代数语言：把 x 换成 3，等式必须成立。","代入：2×3 + a = 5×3 − 4，即 6 + a = 11，解得 a = 5。","原方程是 2x + 5 = 5x − 4。移项：5 + 4 = 5x − 2x，9 = 3x，x = 3。","一元一次方程只有一个解，所以没有别的解——已知一个解反求参数时，最后要回到方程把解完整求出来验证。"],idea:"代数思想：解的定义就是“代入后等式成立”。反求参数类题目，第一步永远是代入已知解，把含参数的方程变成只含参数的方程。",flex:"灵活运用：如果已知两个方程的解相同，先解出不含参数的那个方程，再把解代入另一个求参数——顺序反过来会绕远路。",a:"答案：（1）a = 5；（2）原方程为 2x + 5 = 5x − 4，解唯一，就是 x = 3。"}
+],
+[
+{t:"几年后是 3 倍",stars:"★★☆",p:"父亲今年 40 岁，儿子今年 12 岁。问：几年后父亲的年龄正好是儿子年龄的 3 倍？",steps:["设 x 年后满足条件。关键：x 年后两个人同时长大 x 岁——父亲 40+x，儿子 12+x，不能只给一个人加。","找等量关系：“父亲年龄 = 儿子年龄的 3 倍”，列方程：40 + x = 3(12 + x)。","去括号：40 + x = 36 + 3x；移项：40 − 36 = 3x − x，即 4 = 2x，x = 2。","检验：2 年后父亲 42 岁，儿子 14 岁，42 = 3×14 ✓。"],idea:"代数思想：年龄问题中时间对每个人都是公平的。设“几年后”为 x，两个人的年龄要同时 +x，等量关系只来自题目中的倍数条件。",flex:"灵活运用：问“几年前”就同时 −x。若算出的 x 是负数，说明情况发生在过去——负数解在年龄问题里是有意义的，要结合题目问法判断取舍。",a:"答案：2 年后。"},
+{t:"追及问题",stars:"★★★",p:"一辆慢车以 60 km/h 的速度先出发 1 小时，之后一辆快车以 80 km/h 从同一地点沿同一方向追赶。快车出发几小时后追上慢车？追上时两车各行驶了多少千米？",steps:["设快车出发 x 小时后追上。先算清两人的路程：快车走了 80x km；慢车多走了 1 小时，共走了 60(x+1) km。","追上的标志是路程相等（同一起点），列方程：80x = 60(x + 1)。","展开：80x = 60x + 60，20x = 60，x = 3。","追上时路程 = 80×3 = 240 km（慢车：60×4 = 240 ✓）。"],idea:"代数思想：追及的等量关系是“路程相等”，相遇的等量关系是“路程之和等于总距离”。先画线段图标清谁多走了哪一段，方程自然就出来了。",flex:"灵活运用：慢车先行的 1 小时是隐藏条件，最容易漏。若两车从相距一段距离的两地同向追赶，等量关系变成“快车路程 = 慢车路程 + 初始距离”。",a:"答案：快车出发 3 小时后追上；追上时两车都行驶了 240 km。"},
+{t:"打几折才保住利润",stars:"★★★",p:"一件商品进价 200 元，标价 300 元。商店想打折出售，但希望利润率仍然是 20%（利润率 = 利润 ÷ 进价）。应该打几折？",steps:["先算目标售价：利润率 20% 意味着利润 = 200 × 20% = 40 元，所以售价必须 = 200 + 40 = 240 元。","设打 x 折。打 x 折后的售价 = 标价 × x/10 = 300 × x/10 = 30x。","列方程：30x = 240，解得 x = 8。","检验：300 元打 8 折是 240 元，利润 40 元，利润率 40÷200 = 20% ✓。"],idea:"代数思想：先算“目标”再设未知数。售价、利润、利润率三个量知二求一；打折问题要把“x 折”翻译成乘 x/10，这是列方程前最关键的一步翻译。",flex:"灵活运用：若问“打折后利润率是多少”，就把售价先算出来再套利润率公式。进价、标价、折扣、利润率四者中知道三个，第四个一定能用方程求出。",a:"答案：打 8 折。"}
+],
+[
+{t:"线段上的分段与中点",stars:"★★★",p:"线段 AB 长 24 cm。点 P 在 AB 上，AP 比 PB 长 4 cm。点 M 是 AP 的中点。求：（1）AP、PB 的长；（2）MB 的长。",steps:["设 PB = x cm，则 AP = (x + 4) cm。两人合起来是整条线段：x + (x + 4) = 24。","解得 2x = 20，x = 10，所以 PB = 10 cm，AP = 14 cm。","M 是 AP 的中点，所以 AM = 14 ÷ 2 = 7 cm。","MB = AB − AM = 24 − 7 = 17 cm（也可以 MB = MP + PB = 7 + 10 = 17，两种算法互相检验）。"],idea:"代数思想：线段的和差就是代数式的加减。把一段设为 x，另一段用 x 的式子表示，“总长已知”立刻变成方程；中点意味着一半，先翻译成除以 2。",flex:"灵活运用：若改成 AP : PB = 2 : 3，就设 AP = 2x、PB = 3x 再相加——按比例设未知数是分段问题的常用技巧，比直接设一段更省事。",a:"答案：（1）AP = 14 cm，PB = 10 cm；（2）MB = 17 cm。"},
+{t:"余角与补角的方程",stars:"★★☆",p:"一个角的余角等于它的补角的 1/3。这个角是多少度？（余角：两角和为 90°；补角：两角和为 180°）",steps:["设这个角为 x°，先把两个相关角翻译出来：它的余角是 (90 − x)°，它的补角是 (180 − x)°。","按题意列方程：90 − x = (180 − x)/3。","两边乘 3：270 − 3x = 180 − x；移项：270 − 180 = 3x − x，即 90 = 2x，x = 45。","检验：45° 的余角是 45°，补角是 135°，45 正好是 135 的 1/3 ✓。"],idea:"代数思想：几何量也能设未知数。一个角设为 x，它的余角、补角、几倍关系都能写成代数式，几何问题就变成了熟悉的方程问题。",flex:"灵活运用：记住一对关系：同一个角的补角比余角大 90°。许多余角补角题可以先用这条关系快速估算，再列方程精确求解，两条路互相验证。",a:"答案：45°。"},
+{t:"角平分线综合",stars:"★★★",p:"已知 ∠AOB = 120°，OC 是 ∠AOB 的平分线。点 D 在 ∠AOB 内部，且 ∠AOD 是 ∠BOD 的 3 倍。OE 是 ∠AOD 的平分线。求 ∠AOE 的度数。",steps:["先处理倍数关系：设 ∠BOD = x°，则 ∠AOD = 3x°。两者合起来是整个 ∠AOB：3x + x = 120，解得 x = 30，所以 ∠AOD = 90°。","再用平分线：OC 平分 ∠AOB 得 ∠AOC = 60°（本题暂时用不上，是干扰信息——做题时要分清哪些条件在哪一步用）。","OE 平分 ∠AOD，所以 ∠AOE = 90° ÷ 2 = 45°。","画图复核：∠BOD=30°，∠AOD=90°，D 在 OB 一侧靠近 OB，OE 在 ∠AOD 正中间，45° 合理。"],idea:"代数思想：角的和差与线段的和差完全平行——整体 = 各部分之和。倍数关系设 x、平分线除以 2，是角计算的两块基石；先画图再列式，能避免把角加错位置。",flex:"灵活运用：题目给出暂时用不上的条件（如本题的 OC）很常见，不要强行全用上；反过来，若某条件始终没用，要警惕是不是漏了某一步。按比例设角（x、3x）的方法同样适用于多个角连环倍数的问题。",a:"答案：∠AOE = 45°。"}
+]
+];
+
+function challengeHTML(c,li,j){
+  var audioSrc='assets/challenge-'+(li+1)+'-'+(j+1)+'.mp3';
+  var h='<div class="ch-card" style="margin:0"><div class="ch-top"><b>奥数挑战 '+(j+1)+' · '+c.t+'</b><span class="ch-stars" aria-label="难度">'+c.stars+'</span></div>'
+    +'<p class="ch-prob">'+c.p+'</p>'
+    +'<textarea class="ch-draft" placeholder="✍️ 先在这里写你的思路 / 答案（写不完也没关系，先动笔）" aria-label="奥数挑战草稿"></textarea>'
+    +'<div class="ch-actions"><button class="btn sol-btn">我做完了 · 看讲解</button><span class="ch-hint">点开讲解后，讲解音频会自动播放；看完、听完才算学完这一页</span></div>'
+    +'<div class="ch-sol"><div class="ch-audio"><h4>🎧 听老师讲解这道题</h4><p>讲解音频会跟着文字步骤一步一步讲：先怎么想、用到什么代数思想、最后答案是什么。</p><audio class="ch-audio-el" controls preload="none" src="'+audioSrc+'"></audio><div class="ch-audio-status"></div></div><h4>🧭 思考步骤</h4><ol>';
+  c.steps.forEach(function(s){h+='<li>'+s+'</li>'});
+  h+='</ol><h4>💡 代数思想与原理</h4><div class="ch-idea">'+c.idea+'</div><h4>🔁 如何灵活运用</h4><p>'+c.flex+'</p><div class="ch-ans">'+c.a+'</div></div></div>';
+  return h;
+}
+
+function svgFor(kind){
+  if(kind==="box") return '<svg width="520" height="180" viewBox="0 0 520 180" role="img" aria-label="糖果盒示意图"><rect x="60" y="50" width="170" height="90" rx="12" fill="#F2B705"/><text x="145" y="105" text-anchor="middle" font-size="36" font-weight="800" fill="#1A2E2A">? 颗糖</text><text x="255" y="105" font-size="30" fill="#0F766E" font-weight="800">+ 5 颗 →</text><rect x="370" y="50" width="110" height="90" rx="12" fill="#14B8A6"/><text x="425" y="105" text-anchor="middle" font-size="28" font-weight="800" fill="#fff">x + 5</text></svg>';
+  if(kind==="rect") return '<svg width="520" height="190" viewBox="0 0 520 190" role="img" aria-label="长方形长a宽b示意图"><rect x="130" y="35" width="260" height="120" rx="6" fill="#CCFBF1" stroke="#0F766E" stroke-width="3"/><text x="260" y="25" text-anchor="middle" font-size="22" font-weight="800" fill="#0F766E">a（长）</text><text x="415" y="100" font-size="22" font-weight="800" fill="#E85D3F">b（宽）</text><text x="260" y="102" text-anchor="middle" font-size="24" font-weight="800" fill="#1A2E2A">面积 S = ab</text></svg>';
+  if(kind==="thermo") return '<svg width="520" height="170" viewBox="0 0 520 170" role="img" aria-label="正负数温度与收支示意图"><rect x="40" y="55" width="440" height="18" rx="9" fill="#E85D3F"/><rect x="40" y="55" width="220" height="18" rx="9" fill="#38BDF8"/><line x1="260" y1="35" x2="260" y2="95" stroke="#1A2E2A" stroke-width="3"/><text x="260" y="120" text-anchor="middle" font-weight="800" font-size="20">0 分界线</text><text x="120" y="45" text-anchor="middle" font-weight="800" fill="#0284C7">−3℃ 零下</text><text x="390" y="45" text-anchor="middle" font-weight="800" fill="#E85D3F">+5℃ 零上</text><text x="260" y="155" text-anchor="middle" font-size="15" fill="#5A6D68">支出 −50 元 ← ｜ → 收入 +100 元</text></svg>';
+  if(kind==="numberline") return '<svg width="540" height="150" viewBox="0 0 540 150" role="img" aria-label="数轴示意图"><line x1="30" y1="70" x2="500" y2="70" stroke="#0F766E" stroke-width="3"/><polygon points="500,70 485,62 485,78" fill="#0F766E"/><g font-size="17" font-weight="700" text-anchor="middle" fill="#1A2E2A"><text x="80" y="100">−4</text><text x="145" y="100">−3</text><text x="210" y="100">−2</text><text x="270" y="100">0</text><text x="335" y="100">2</text><text x="400" y="100">3</text><text x="460" y="100">4</text></g><g stroke="#1A2E2A" stroke-width="2"><line x1="80" y1="60" x2="80" y2="80"/><line x1="145" y1="60" x2="145" y2="80"/><line x1="210" y1="60" x2="210" y2="80"/><line x1="270" y1="60" x2="270" y2="80"/><line x1="335" y1="60" x2="335" y2="80"/><line x1="400" y1="60" x2="400" y2="80"/><line x1="460" y1="60" x2="460" y2="80"/></g><circle cx="80" cy="70" r="8" fill="#E85D3F"/><path d="M80 40 Q170 10 270 40" fill="none" stroke="#E85D3F" stroke-width="2.5" stroke-dasharray="5 4"/><text x="175" y="22" text-anchor="middle" font-size="15" font-weight="800" fill="#E85D3F">距离 = 4，所以 |−4| = 4</text></svg>';
+  if(kind==="signs") return '<svg width="520" height="170" viewBox="0 0 520 170" role="img" aria-label="有理数运算符号规则"><g font-weight="800" text-anchor="middle"><rect x="20" y="30" width="150" height="110" rx="14" fill="#DCFCE7"/><text x="95" y="75" font-size="19" fill="#14532D">同号相加</text><text x="95" y="105" font-size="16" fill="#14532D">符号不变</text><rect x="185" y="30" width="150" height="110" rx="14" fill="#FEF3C7"/><text x="260" y="75" font-size="19" fill="#92400E">异号相加</text><text x="260" y="105" font-size="16" fill="#92400E">看大绝对值</text><rect x="350" y="30" width="150" height="110" rx="14" fill="#FFE4DC"/><text x="425" y="75" font-size="19" fill="#9A3412">减法变加法</text><text x="425" y="105" font-size="16" fill="#9A3412">加相反数</text></g></svg>';
+  if(kind==="terms") return '<svg width="520" height="170" viewBox="0 0 520 170" role="img" aria-label="同类项合并示意图"><g font-size="30" text-anchor="middle"><text x="90" y="80">🍎🍎🍎</text><text x="185" y="80" font-size="24">+</text><text x="275" y="80">🍎🍎🍎🍎🍎</text><text x="365" y="80" font-size="24">=</text><text x="455" y="80">8🍎</text></g><text x="260" y="130" text-anchor="middle" font-size="19" font-weight="800" fill="#0F766E">3x + 5x = 8x（🍊 不能和 🍎 合并，就像 5y 不能和 3x 合并）</text></svg>';
+  if(kind==="balance") return '<svg width="520" height="200" viewBox="0 0 520 200" role="img" aria-label="天平解方程示意图"><line x1="90" y1="55" x2="430" y2="55" stroke="#92400E" stroke-width="6" stroke-linecap="round"/><line x1="260" y1="55" x2="260" y2="140" stroke="#92400E" stroke-width="6"/><polygon points="210,165 310,165 260,140" fill="#92400E"/><ellipse cx="130" cy="70" rx="70" ry="14" fill="#F2B705"/><ellipse cx="390" cy="70" rx="70" ry="14" fill="#F2B705"/><rect x="85" y="18" width="55" height="36" rx="6" fill="#14B8A6"/><text x="112" y="43" text-anchor="middle" font-weight="800" fill="#fff">x 克</text><rect x="145" y="24" width="30" height="30" rx="6" fill="#E85D3F"/><text x="160" y="45" text-anchor="middle" font-weight="800" fill="#fff" font-size="14">3</text><rect x="365" y="18" width="50" height="36" rx="6" fill="#64748B"/><text x="390" y="43" text-anchor="middle" font-weight="800" fill="#fff">8 克</text><text x="260" y="190" text-anchor="middle" font-weight="800" fill="#0F766E">x + 3 = 8，两边同时 −3 → x = 5</text></svg>';
+  if(kind==="geometry") return '<svg width="540" height="180" viewBox="0 0 540 180" role="img" aria-label="线段分段示意图"><line x1="50" y1="90" x2="490" y2="90" stroke="#0F766E" stroke-width="4"/><circle cx="50" cy="90" r="6" fill="#0F766E"/><circle cx="290" cy="90" r="6" fill="#E85D3F"/><circle cx="490" cy="90" r="6" fill="#0F766E"/><text x="50" y="120" text-anchor="middle" font-weight="800">A</text><text x="290" y="120" text-anchor="middle" font-weight="800">M</text><text x="490" y="120" text-anchor="middle" font-weight="800">B</text><text x="170" y="70" text-anchor="middle" font-weight="800" fill="#0F766E">AM = x cm</text><text x="390" y="70" text-anchor="middle" font-weight="800" fill="#E85D3F">MB = x + 3 cm</text><text x="270" y="155" text-anchor="middle" font-weight="800">AB = x + (x + 3) = 2x + 3 cm</text></svg>';
+  return '<svg width="540" height="150" viewBox="0 0 540 150" role="img" aria-label="列方程解应用题六步"><g font-weight="800" font-size="15" text-anchor="middle"><rect x="5" y="45" width="78" height="52" rx="12" fill="#0F766E"/><text x="44" y="77" fill="#fff">① 设 x</text><rect x="95" y="45" width="92" height="52" rx="12" fill="#14B8A6"/><text x="141" y="77" fill="#fff">② 找等量</text><rect x="199" y="45" width="78" height="52" rx="12" fill="#F2B705"/><text x="238" y="77" fill="#1A2E2A">③ 列方程</text><rect x="289" y="45" width="78" height="52" rx="12" fill="#E85D3F"/><text x="328" y="77" fill="#fff">④ 解方程</text><rect x="379" y="45" width="68" height="52" rx="12" fill="#64748B"/><text x="413" y="77" fill="#fff">⑤ 检验</text><rect x="459" y="45" width="68" height="52" rx="12" fill="#15803D"/><text x="493" y="77" fill="#fff">⑥ 作答</text></g></svg>';
+}
+
+var PAGES=[];
+LESSONS.forEach(function(L,i){
+  PAGES.push({type:'learn',lesson:i,label:'看图解 · 学新知'});
+  PAGES.push({type:'audio',lesson:i,label:'听讲解'});
+  PAGES.push({type:'mcq',lesson:i,label:'选择题'});
+  PAGES.push({type:'fill',lesson:i,label:'填空题'});
+  (CHALLENGES[i]||[]).forEach(function(c,j){ PAGES.push({type:'challenge',lesson:i,ch:j,label:'奥数挑战 '+(j+1)}); });
+});
+var TOTAL=PAGES.length;
+var state={current:0, pageDone:{}, mcqDone:{}, fillDone:{}, fillValues:{}, drafts:{}, totalSeconds:0, sessionSeconds:0, firstStartedAt:null, lastStudiedAt:null, visitCount:0, pageSeconds:{}};
+var DB_NAME='algebra-course-db', DB_VERSION=1, DB_STORE='learning', DB_KEY='progress-v1';
+var idbDB=null, idbReady=false, idbFailed=false, saveQueued=false, tickStarted=false, clearArm=false;
+var nav=document.getElementById('lessonNav');
+var main=document.getElementById('lessons');
+
+LESSONS.forEach(function(L,i){
+  var b=document.createElement('button');
+  b.textContent=(i+1)+'. '+L.title; b.id='nav-'+i;
+  b.onclick=function(){ goToLesson(i); };
+  nav.appendChild(b);
+});
+
+function pageIndexOf(lessonIdx,type,ch){
+  for(var k=0;k<PAGES.length;k++){ var p=PAGES[k]; if(p.lesson===lessonIdx&&p.type===type&&(type!=='challenge'||p.ch===ch)) return k; }
+  return -1;
+}
+function isUnlocked(idx){
+  if(idx<=0) return true;
+  for(var k=0;k<idx;k++){ if(!state.pageDone[k]) return false; }
+  return true;
+}
+function formatDuration(sec){
+  sec=Math.max(0,Math.floor(sec||0));
+  if(sec<60) return sec+' 秒';
+  if(sec<3600){ var m=Math.floor(sec/60); return m+' 分钟'; }
+  var h=Math.floor(sec/3600), mm=Math.floor((sec%3600)/60);
+  return h+' 小时'+(mm?' '+mm+' 分':'');
+}
+function formatDateTime(ts){
+  if(!ts) return '还没开始';
+  try{ var d=new Date(ts); var p=function(n){return (n<10?'0':'')+n}; return (d.getMonth()+1)+'月'+d.getDate()+'日 '+p(d.getHours())+':'+p(d.getMinutes()); }catch(e){ return '已记录'; }
+}
+function setStorageStatus(ok,msg){
+  var dot=document.getElementById('storageDot'), st=document.getElementById('storageStatus');
+  if(dot) dot.className='storage-dot'+(ok?'':' off');
+  if(st) st.textContent=msg;
+  var vt=document.getElementById('visitText');
+  if(vt && state.visitCount) vt.textContent='· 第 '+state.visitCount+' 次打开';
+}
+function idbOpen(){
+  return new Promise(function(resolve,reject){
+    if(!('indexedDB' in window)){ reject(new Error('no-idb')); return; }
+    var req=indexedDB.open(DB_NAME,DB_VERSION);
+    req.onupgradeneeded=function(e){ var db=e.target.result; if(!db.objectStoreNames.contains(DB_STORE)) db.createObjectStore(DB_STORE); };
+    req.onsuccess=function(e){ idbDB=e.target.result; idbReady=true; resolve(idbDB); };
+    req.onerror=function(){ reject(req.error); };
+    req.onblocked=function(){ reject(new Error('blocked')); };
+  });
+}
+function idbLoad(){
+  return idbOpen().then(function(db){
+    return new Promise(function(resolve,reject){
+      var tx=db.transaction(DB_STORE,'readonly'); var store=tx.objectStore(DB_STORE); var r=store.get(DB_KEY);
+      r.onsuccess=function(){ resolve(r.result||null); }; r.onerror=function(){ reject(r.error); };
+    });
+  });
+}
+function snapshotRecord(){
+  return {v:1, current:state.current, pageDone:state.pageDone, mcqDone:state.mcqDone, fillDone:state.fillDone, fillValues:state.fillValues, drafts:state.drafts, totalSeconds:state.totalSeconds, firstStartedAt:state.firstStartedAt, lastStudiedAt:state.lastStudiedAt, visitCount:state.visitCount, pageSeconds:state.pageSeconds, updatedAt:Date.now()};
+}
+function idbSaveNow(){
+  if(!idbReady||!idbDB||idbFailed) return Promise.resolve(false);
+  var rec=snapshotRecord();
+  return new Promise(function(resolve){
+    try{
+      var tx=idbDB.transaction(DB_STORE,'readwrite'); var store=tx.objectStore(DB_STORE); var r=store.put(rec,DB_KEY);
+      r.onsuccess=function(){ resolve(true); }; r.onerror=function(){ resolve(false); };
+      tx.oncomplete=function(){ resolve(true); }; tx.onerror=function(){ resolve(false); };
+    }catch(e){ resolve(false); }
+  });
+}
+function scheduleSave(){
+  state.lastStudiedAt=Date.now();
+  if(saveQueued) return; saveQueued=true;
+  setTimeout(function(){ saveQueued=false; idbSaveNow(); },400);
+}
+function idbClear(){
+  if(!idbReady||!idbDB) return Promise.resolve(false);
+  return new Promise(function(resolve){
+    try{ var tx=idbDB.transaction(DB_STORE,'readwrite'); var r=tx.objectStore(DB_STORE).delete(DB_KEY); r.onsuccess=function(){resolve(true)}; r.onerror=function(){resolve(false)}; }catch(e){ resolve(false); }
+  });
+}
+function updateStudyStatsUI(){
+  var t=document.getElementById('totalTimeText'), s=document.getElementById('sessionTimeText'), l=document.getElementById('lastStudyText');
+  if(t) t.textContent=formatDuration(state.totalSeconds);
+  if(s) s.textContent=formatDuration(state.sessionSeconds);
+  if(l) l.textContent=state.lastStudiedAt?formatDateTime(state.lastStudiedAt):'还没开始';
+}
+function startStudyTimer(){
+  if(tickStarted) return; tickStarted=true;
+  setInterval(function(){
+    if(document.visibilityState && document.visibilityState!=='visible') return;
+    state.sessionSeconds++; state.totalSeconds++;
+    var cur=state.current; state.pageSeconds[cur]=(state.pageSeconds[cur]||0)+1;
+    state.lastStudiedAt=Date.now();
+    if(state.sessionSeconds%5===0){ updateStudyStatsUI(); scheduleSave(); }
+    else if(state.sessionSeconds%1===0){ var s=document.getElementById('sessionTimeText'); if(s) s.textContent=formatDuration(state.sessionSeconds); var t=document.getElementById('totalTimeText'); if(t) t.textContent=formatDuration(state.totalSeconds); }
+  },1000);
+}
+function markDone(idx){
+  if(!state.pageDone[idx]){ state.pageDone[idx]=true; }
+  refreshPageUI(idx); updateProgress(); scheduleSave();
+}
+function gateHTML(idx,textWhenLocked){
+  var done=!!state.pageDone[idx];
+  return '<div class="gate'+(done?' done':'')+'" id="gate-'+idx+'"><p>'+(done?'✅ 这一页学完了，可以进入下一页。':textWhenLocked)+'</p></div>';
+}
+function pagerHTML(idx){
+  var done=!!state.pageDone[idx];
+  var prev= idx>0 ? '<button class="btn secondary" onclick="goToPage('+(idx-1)+')">← 上一页</button>' : '<span></span>';
+  var next;
+  if(idx<TOTAL-1){ next='<button class="btn" id="next-'+idx+'" '+(done?'':'disabled')+' onclick="goToPage('+(idx+1)+')">下一页 →</button>'; }
+  else { next='<button class="btn" id="next-'+idx+'" '+(done?'':'disabled')+' onclick="showFinal()">看看我的成绩 🏆</button>'; }
+  return '<div class="page-pager">'+prev+'<span style="font-size:13px;color:var(--muted);font-weight:700">第 '+(idx+1)+' / '+TOTAL+' 页</span>'+next+'</div>';
+}
+function headHTML(L,idx,extra){
+  var p=PAGES[idx];
+  return '<div class="lesson-head"><div class="num">'+L.id+'</div><div><div class="page-meta"><span class="page-badge">第 '+(p.lesson+1)+' 课 · '+p.label+'</span><span class="page-badge '+(state.pageDone[idx]?'done':'warn')+'">'+(state.pageDone[idx]?'已学完':'正在学')+'</span>'+(extra||'')+'</div><h2>'+L.title+'</h2><p>'+L.sub+'</p></div></div>';
+}
+
+PAGES.forEach(function(p,idx){
+  var L=LESSONS[p.lesson];
+  var sec=document.createElement('section');
+  sec.className='page'; sec.id='page-'+idx;
+  var body='';
+  if(p.type==='learn'){
+    body=headHTML(L,idx)
+      +'<div class="lesson-body"><div class="idea">'+L.idea+'<small>'+L.ideaSub+'</small></div>'
+      +'<div class="visual">'+svgFor(L.visual)+'</div>'
+      +'<div class="example"><h3>📌 '+L.exampleTitle+'</h3><p>'+L.example+'</p><div class="formula">'+L.formula+'</div></div>'
+      +'<div class="gate-wrap">'+gateHTML(idx,'先把上面的图和例子看懂，再点下面的按钮确认。')+'</div>'
+      +'<button class="btn" onclick="markDone('+idx+')">✓ 我看懂了，这一页学完了</button>'
+      +pagerHTML(idx)+'</div>';
+  } else if(p.type==='audio'){
+    body=headHTML(L,idx)
+      +'<div class="lesson-body"><div class="audio-box"><h3>🎧 听老师讲这一课（已自动播放）</h3><p>这一页一打开，讲解就会自动开始。听完一遍、播到结尾，才算学完这一页；没听清可以拖回去重听。</p><audio id="audio-'+idx+'" controls preload="auto" src="'+L.audio+'"></audio><div class="audio-status" id="audio-status-'+idx+'">正在准备播放…</div><details><summary>📝 查看讲解文字稿</summary><p>'+L.transcript+'</p></details></div>'
+      +'<div class="gate-wrap">'+gateHTML(idx,'🔒 把讲解听完（播到结尾），下一页才会解锁。')+'</div>'
+      +pagerHTML(idx)+'</div>';
+  } else if(p.type==='mcq'){
+    body=headHTML(L,idx)
+      +'<div class="lesson-body"><div class="quiz" style="border-top:none;margin-top:0;padding-top:0"><h3>✏️ 选择题 · 答对才算学完</h3><div class="q"><p>'+L.mcq.q+'</p><div class="opts" id="opts-'+p.lesson+'"></div><div class="feedback" id="mcq-fb-'+p.lesson+'"></div></div></div>'
+      +'<div class="gate-wrap">'+gateHTML(idx,'🔒 选对答案后，下一页才会解锁。')+'</div>'
+      +pagerHTML(idx)+'</div>';
+  } else if(p.type==='fill'){
+    body=headHTML(L,idx)
+      +'<div class="lesson-body"><div class="quiz" style="border-top:none;margin-top:0;padding-top:0"><h3>✏️ 填空题 · 答对才算学完</h3><div class="q"><p>'+L.fill.q+'</p><div class="fill"><input id="fill-'+p.lesson+'" type="text" inputmode="text" placeholder="在这里输入你的答案" aria-label="填空答案"><button class="btn" onclick="checkFill('+p.lesson+')">提交答案</button></div><div class="feedback" id="fill-fb-'+p.lesson+'"></div></div></div>'
+      +'<div class="gate-wrap">'+gateHTML(idx,'🔒 填对答案后，下一页才会解锁。')+'</div>'
+      +pagerHTML(idx)+'</div>';
+  } else if(p.type==='challenge'){
+    var c=CHALLENGES[p.lesson][p.ch];
+    body=headHTML(L,idx,'<span class="page-badge" style="background:var(--coral-soft);color:var(--coral)">本课第 '+(p.ch+1)+' / 3 题</span>')
+      +'<div class="lesson-body"><p class="challenge-tip">这一页只有这一道奥数题。先别看讲解，在草稿框里写下你的思路，做完后点开讲解：讲解音频会自动播放，边听边一步一步对照文字步骤，看完才算学完这一页。</p>'
+      +challengeHTML(c,p.lesson,p.ch)
+      +'<div class="gate-wrap" style="margin-top:14px">'+gateHTML(idx,'🔒 先自己做，再点开讲解看完，下一页才会解锁。')+'</div>'
+      +pagerHTML(idx)+'</div>';
+  }
+  sec.innerHTML=body;
+  main.appendChild(sec);
+
+  if(p.type==='mcq'){
+    var optsBox=sec.querySelector('#opts-'+p.lesson);
+    L.mcq.opts.forEach(function(t,j){
+      var ob=document.createElement('button');
+      ob.className='opt'; ob.textContent=t;
+      ob.onclick=function(){checkMcq(p.lesson,j,ob)};
+      optsBox.appendChild(ob);
+    });
+  }
+  if(p.type==='fill'){
+    var finput=sec.querySelector('#fill-'+p.lesson);
+    finput.addEventListener('keydown',function(e){if(e.key==='Enter')checkFill(p.lesson)});
+    finput.addEventListener('input',function(){ state.fillValues[p.lesson]=finput.value; scheduleSave(); });
+  }
+  if(p.type==='audio'){
+    var au=sec.querySelector('#audio-'+idx);
+    au.addEventListener('ended',function(){
+      var st=document.getElementById('audio-status-'+idx); if(st) st.textContent='✅ 听完了！这一页学完啦。';
+      markDone(idx);
+    });
+    au.addEventListener('playing',function(){
+      var st=document.getElementById('audio-status-'+idx); if(st && !state.pageDone[idx]) st.textContent='▶️ 正在播放，认真听，播到结尾就过关…';
+    });
+  }
+  if(p.type==='challenge'){
+    var btn=sec.querySelector('.sol-btn');
+    var sol=sec.querySelector('.ch-sol');
+    var cau=sec.querySelector('.ch-audio-el');
+    var cst=sec.querySelector('.ch-audio-status');
+    var draftEl=sec.querySelector('.ch-draft');
+    if(draftEl){ draftEl.addEventListener('input',function(){ state.drafts[idx]=draftEl.value; scheduleSave(); }); }
+    if(cau){
+      cau.addEventListener('playing',function(){ if(cst) cst.textContent='▶️ 正在播放讲解，跟着音频一步一步对照下面的文字步骤…'; });
+      cau.addEventListener('ended',function(){ if(cst) cst.textContent='✅ 讲解听完了，再扫一遍文字步骤就更扎实了。'; });
+      cau.addEventListener('error',function(){ if(cst) cst.textContent='音频暂时加载不出来，先看下面的文字讲解，一样完整。'; });
+    }
+    btn.onclick=function(){
+      var open=sol.classList.toggle('open');
+      btn.textContent=open?'收起讲解':'我做完了 · 看讲解';
+      if(open){
+        markDone(idx);
+        if(cau){
+          document.querySelectorAll('audio').forEach(function(a){ if(a!==cau) a.pause(); });
+          var pr=cau.play();
+          if(pr && pr.catch){ pr.catch(function(){ if(cst) cst.textContent='点上面的播放按钮开始听讲解（浏览器拦了一次自动播放）。'; }); }
+        }
+      } else if(cau){ cau.pause(); }
+    };
+  }
+});
+
+function refreshPageUI(idx){
+  var sec=document.getElementById('page-'+idx); if(!sec) return;
+  var p=PAGES[idx];
+  // rebuild gate + pager to reflect done state
+  var wrap=sec.querySelector('.gate-wrap');
+  if(wrap){
+    var lockedText='';
+    if(p.type==='learn') lockedText='先把上面的图和例子看懂，再点下面的按钮确认。';
+    else if(p.type==='audio') lockedText='🔒 把讲解听完（播到结尾），下一页才会解锁。';
+    else if(p.type==='mcq') lockedText='🔒 选对答案后，下一页才会解锁。';
+    else if(p.type==='fill') lockedText='🔒 填对答案后，下一页才会解锁。';
+    else lockedText='🔒 先自己做，再点开讲解看完，下一页才会解锁。';
+    wrap.innerHTML=gateHTML(idx,lockedText);
+  }
+  var next=document.getElementById('next-'+idx);
+  if(next) next.disabled=!state.pageDone[idx];
+  var badges=sec.querySelectorAll('.page-badge');
+  // second badge is status if present
+  if(badges.length>1 && state.pageDone[idx]){ badges[1].textContent='已学完'; badges[1].className='page-badge done'; }
+}
+function tryAutoPlay(idx){
+  var au=document.getElementById('audio-'+idx); if(!au) return;
+  var st=document.getElementById('audio-status-'+idx);
+  var pr=au.play();
+  if(pr && pr.catch){ pr.catch(function(){ if(st) st.textContent='点上面的播放按钮开始听（浏览器拦了一次自动播放），播到结尾就过关。'; }); }
+}
+function goToPage(idx){
+  if(idx<0||idx>=TOTAL) return;
+  if(!isUnlocked(idx)){
+    // find first unfinished page before idx
+    for(var k=0;k<idx;k++){ if(!state.pageDone[k]){ idx=k; break; } }
+  }
+  state.current=idx;
+  var hideTop = idx>0;
+  var heroEl=document.getElementById('heroBlock');
+  var howtoEl=document.getElementById('howtoBlock');
+  if(heroEl) heroEl.classList.toggle('focus-hidden',hideTop);
+  if(howtoEl) howtoEl.classList.toggle('focus-hidden',hideTop);
+  document.body.classList.toggle('focus-mode',hideTop);
+  document.querySelectorAll('.page').forEach(function(el,j){el.classList.toggle('active',j===idx)});
+  document.querySelectorAll('#lessonNav button').forEach(function(el,j){el.classList.toggle('active',j===PAGES[idx].lesson)});
+  document.querySelectorAll('audio').forEach(function(a){ if(a.id!=='audio-'+idx) a.pause(); });
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(PAGES[idx].type==='audio'){ tryAutoPlay(idx); }
+  updateProgress(); updateStudyStatsUI(); scheduleSave();
+}
+function goToLesson(li){
+  var idx=pageIndexOf(li,'learn');
+  if(isUnlocked(idx)){ goToPage(idx); }
+  else {
+    // go to first unfinished page overall and explain via scroll
+    for(var k=0;k<TOTAL;k++){ if(!state.pageDone[k]){ goToPage(k); break; } }
+  }
+}
+function startLearning(){
+  for(var k=0;k<TOTAL;k++){ if(!state.pageDone[k]){ goToPage(k); return; } }
+  goToPage(0);
+}
+function updateProgress(){
+  var donePages=Object.keys(state.pageDone).length;
+  var correct=Object.keys(state.mcqDone).length+Object.keys(state.fillDone).length;
+  document.getElementById('progressText').textContent='已完成 '+donePages+' / '+TOTAL+' 页 · 答对 '+correct+' / '+(LESSONS.length*2)+' 题';
+  document.getElementById('progressFill').style.width=(donePages/TOTAL*100)+'%';
+  updateStudyStatsUI();
+  LESSONS.forEach(function(_,i){
+    var btn=document.getElementById('nav-'+i); if(!btn) return;
+    var firstIdx=pageIndexOf(i,'learn');
+    var allDone=true;
+    PAGES.forEach(function(p,idx){ if(p.lesson===i && !state.pageDone[idx]) allDone=false; });
+    btn.classList.toggle('done',allDone);
+    var locked=!isUnlocked(firstIdx);
+    btn.classList.toggle('locked',locked);
+    btn.disabled=false;
+  });
+  if(donePages===TOTAL) showFinal();
+}
+function checkMcq(i,j,btn){
+  var L=LESSONS[i], fb=document.getElementById('mcq-fb-'+i);
+  if(j===L.mcq.ans){ btn.classList.add('correct'); state.mcqDone[i]=true; fb.className='feedback show ok'; fb.textContent='✅ 答对了！'+L.mcq.why; markDone(pageIndexOf(i,'mcq')); }
+  else{ btn.classList.add('wrong'); fb.className='feedback show no'; fb.textContent='🤔 还不对，再想想，换一个选项试试。'; setTimeout(function(){btn.classList.remove('wrong')},1200); }
+}
+function norm(s){return (s||'').trim().replace(/\s+/g,'').replace(/＋/g,'+').replace(/−/g,'-').replace(/×/g,'*').toLowerCase()}
+function checkFill(i){
+  var L=LESSONS[i], inp=document.getElementById('fill-'+i), fb=document.getElementById('fill-fb-'+i);
+  var v=norm(inp.value);
+  state.fillValues[i]=inp.value;
+  var ok=L.fill.answers.some(function(a){return norm(a)===v});
+  if(ok){ state.fillDone[i]=true; fb.className='feedback show ok'; fb.textContent='✅ 答对了！'+L.fill.why; inp.style.borderColor='var(--green)'; markDone(pageIndexOf(i,'fill')); }
+  else{ fb.className='feedback show no'; fb.textContent='🤔 答案还不对。对照讲解再算一次吧。'; scheduleSave(); }
+}
+function showFinal(){
+  var correct=Object.keys(state.mcqDone).length+Object.keys(state.fillDone).length;
+  var box=document.getElementById('finalBox'); box.classList.add('show');
+  document.getElementById('finalText').textContent='63 页全部学完，你答对了 '+correct+' / '+(LESSONS.length*2)+' 道随堂题，累计学习 '+formatDuration(state.totalSeconds)+'。'+(correct===18?'满分通关，太棒了！记得把每课的核心思想复述一遍，印象会更深。':correct>=12?'非常不错！把错题对应的那一课音频再听一遍，就能补齐。':'别灰心，回到错题的那一课，听一遍讲解再重做，进步最快。');
+  box.scrollIntoView({behavior:'smooth'});
+}
+function applyRestoredState(rec){
+  if(!rec) return false;
+  try{
+    if(rec.pageDone) state.pageDone=rec.pageDone;
+    if(rec.mcqDone) state.mcqDone=rec.mcqDone;
+    if(rec.fillDone) state.fillDone=rec.fillDone;
+    if(rec.fillValues) state.fillValues=rec.fillValues;
+    if(rec.drafts) state.drafts=rec.drafts;
+    if(typeof rec.totalSeconds==='number') state.totalSeconds=rec.totalSeconds;
+    if(rec.firstStartedAt) state.firstStartedAt=rec.firstStartedAt;
+    if(rec.lastStudiedAt) state.lastStudiedAt=rec.lastStudiedAt;
+    if(typeof rec.visitCount==='number') state.visitCount=rec.visitCount;
+    if(rec.pageSeconds) state.pageSeconds=rec.pageSeconds;
+    if(typeof rec.current==='number') state.current=rec.current;
+    // restore fill inputs & drafts & mcq highlights
+    Object.keys(state.fillValues||{}).forEach(function(k){ var el=document.getElementById('fill-'+k); if(el) el.value=state.fillValues[k]; });
+    Object.keys(state.fillDone||{}).forEach(function(k){ var el=document.getElementById('fill-'+k); var fb=document.getElementById('fill-fb-'+k); var L=LESSONS[k]; if(el){ el.style.borderColor='var(--green)'; } if(fb&&L){ fb.className='feedback show ok'; fb.textContent='✅ 答对了！'+L.fill.why; } });
+    Object.keys(state.mcqDone||{}).forEach(function(k){ var L=LESSONS[k]; var box=document.getElementById('opts-'+k); if(box&&L){ var btns=box.querySelectorAll('.opt'); if(btns[L.mcq.ans]) btns[L.mcq.ans].classList.add('correct'); var fb=document.getElementById('mcq-fb-'+k); if(fb){ fb.className='feedback show ok'; fb.textContent='✅ 答对了！'+L.mcq.why; } } });
+    document.querySelectorAll('.page').forEach(function(sec,idx){ var d=sec.querySelector('.ch-draft'); if(d && state.drafts[idx]) d.value=state.drafts[idx]; });
+    PAGES.forEach(function(p,idx){ if(state.pageDone[idx]) refreshPageUI(idx); });
+    return true;
+  }catch(e){ return false; }
+}
+function resumeLearning(){
+  var target=state.current||0;
+  if(!isUnlocked(target)){ for(var k=0;k<TOTAL;k++){ if(!state.pageDone[k]){ target=k; break; } } }
+  // if everything done, stay / go to last page
+  if(Object.keys(state.pageDone).length>=TOTAL) target=TOTAL-1;
+  goToPage(target);
+}
+function downloadRecord(){
+  scheduleSave();
+  var donePages=Object.keys(state.pageDone).length;
+  var correct=Object.keys(state.mcqDone).length+Object.keys(state.fillDone).length;
+  var data={导出时间:new Date().toLocaleString(), 已完成页数:donePages, 总页数:TOTAL, 答对题数:correct, 总题数:LESSONS.length*2, 累计学习时长: formatDuration(state.totalSeconds), 累计学习秒数: state.totalSeconds, 本次学习时长: formatDuration(state.sessionSeconds), 首次学习时间: state.firstStartedAt?new Date(state.firstStartedAt).toLocaleString():'', 上次学习时间: state.lastStudiedAt?new Date(state.lastStudiedAt).toLocaleString():'', 打开次数: state.visitCount, 当前页: state.current+1, 每页停留秒数: state.pageSeconds, 已完成页面: state.pageDone};
+  var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob); var a=document.createElement('a'); a.href=url; a.download='学习记录.json'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){URL.revokeObjectURL(url)},800);
+}
+function clearProgress(){
+  var btn=document.getElementById('clearBtn');
+  if(!clearArm){ clearArm=true; if(btn) btn.textContent='再点一次确认清除'; setTimeout(function(){ clearArm=false; var b=document.getElementById('clearBtn'); if(b) b.textContent='清除本地记录'; },3500); return; }
+  clearArm=false; if(btn) btn.textContent='清除本地记录';
+  state.pageDone={}; state.mcqDone={}; state.fillDone={}; state.fillValues={}; state.drafts={}; state.totalSeconds=0; state.sessionSeconds=0; state.pageSeconds={}; state.current=0; state.firstStartedAt=Date.now(); state.lastStudiedAt=Date.now();
+  idbClear().then(function(){ location.reload(); });
+}
+// ---- Init: restore from IndexedDB, keep working even if storage is unavailable ----
+(function init(){
+  var fallbackTimer=setTimeout(function(){ if(!tickStarted){ setStorageStatus(false,'本地记录暂时不可用，本次学习仍可正常进行（不会保存）'); goToPage(state.current||0); updateProgress(); startStudyTimer(); } },2500);
+  idbLoad().then(function(rec){
+    clearTimeout(fallbackTimer);
+    var had=applyRestoredState(rec);
+    state.visitCount=(state.visitCount||0)+1;
+    if(!state.firstStartedAt) state.firstStartedAt=Date.now();
+    state.lastStudiedAt=Date.now();
+    setStorageStatus(true, had?'✓ 本地记录已恢复（IndexedDB）· 进度和时长会自动保存':'✓ 已开启本地记录（IndexedDB）· 学完会自动保存');
+    var target=(typeof state.current==='number'&&isUnlocked(state.current))?state.current:0;
+    // resume to first unfinished if there is saved progress beyond page 0
+    if(had && Object.keys(state.pageDone).length>0){ for(var k=0;k<TOTAL;k++){ if(!state.pageDone[k]){ target=k; break; } if(k===TOTAL-1) target=TOTAL-1; } if(typeof rec.current==='number' && rec.current<=target) target=rec.current; }
+    state.current=target;
+    goToPage(target); updateProgress(); updateStudyStatsUI(); startStudyTimer(); scheduleSave();
+    setInterval(function(){ idbSaveNow(); },15000);
+    document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='hidden') idbSaveNow(); });
+    window.addEventListener('beforeunload',function(){ try{ idbSaveNow(); }catch(e){} });
+    window.addEventListener('pagehide',function(){ try{ idbSaveNow(); }catch(e){} });
+  }).catch(function(){
+    clearTimeout(fallbackTimer); idbFailed=true;
+    setStorageStatus(false,'这台浏览器不让用 IndexedDB，本次学习仍可正常进行（关掉后不会保存）');
+    if(!state.firstStartedAt) state.firstStartedAt=Date.now();
+    goToPage(0); updateProgress(); startStudyTimer();
+  });
+})();
+</script>
+</body>
+</html>
