@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>星宝 AI 宠物测试台</title>
+    <meta name="claude:viewport-fit-sides" content="cover" />
+    <meta name="description" content="3D AI 宠物「星宝」的测试页面：表情、动作、说话、移动到页面指定位置、休息卖萌。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+    <script>
+      // 首屏绘制前应用上次选择的色调，避免闪烁
+      try {
+        var savedTheme = localStorage.getItem('xingbao.theme');
+        if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+      } catch (e) {}
+    </script>
+    <script type="module" crossorigin src="./assets/main-CgFam5jr.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/AIPet-CK3-1L_o.js">
+    <link rel="stylesheet" crossorigin href="./assets/main-BY4blSDm.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div class="brand-text">
+            <strong>星宝</strong>
+            <span>AI 宠物测试台</span>
+          </div>
+        </div>
+        <dl class="readout" aria-live="polite">
+          <div><dt>模型</dt><dd id="ro-source">加载中</dd></div>
+          <div><dt>状态</dt><dd id="ro-state">—</dd></div>
+          <div><dt>表情</dt><dd id="ro-expr">—</dd></div>
+          <div class="ro-pos"><dt>位置</dt><dd id="ro-pos">—</dd></div>
+        </dl>
+        <div class="toolbar" role="group" aria-label="显示设置">
+          <div class="size-ctl">
+            <span class="size-label" id="size-label">宠物大小</span>
+            <button type="button" class="icon-btn" id="size-dec" aria-label="缩小宠物">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10" /></svg>
+            </button>
+            <input type="range" id="size-range" min="80" max="320" step="10" value="150" aria-labelledby="size-label" />
+            <button type="button" class="icon-btn" id="size-inc" aria-label="放大宠物">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8 3v10" /></svg>
+            </button>
+            <output id="size-out" for="size-range">150 px</output>
+          </div>
+          <div class="seg-inline" id="theme-seg" role="radiogroup" aria-label="页面色调">
+            <button type="button" role="radio" aria-checked="true" data-theme-choice="light">
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <circle cx="8" cy="8" r="3" />
+                <path d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1" />
+              </svg>
+              亮色
+            </button>
+            <button type="button" role="radio" aria-checked="false" data-theme-choice="dark">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.2 10.1A5.6 5.6 0 0 1 5.9 2.8a5.6 5.6 0 1 0 7.3 7.3z" /></svg>
+              暗色
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell">
+      <main class="host" id="host" aria-label="模拟业务页面（星宝的活动区域）">
+        <section class="greeting">
+          <p class="eyebrow">HOST PAGE · 宿主页面</p>
+          <h1 id="greeting-title">你好，今天还有 3 件事等你处理</h1>
+          <p class="lede">这是一个模拟的工作台页面，星宝住在这里。每张卡片都是一个落脚点，点卡片上的按钮，它就会飞过去。</p>
+          <div class="greeting-actions">
+            <button class="btn btn-primary" id="btn-greet" type="button">让星宝打个招呼</button>
+            <div class="click-mode">
+              <span id="click-mode-label">点击页面空白处时</span>
+              <div class="seg-inline" id="click-mode" role="radiogroup" aria-labelledby="click-mode-label">
+                <button type="button" role="radio" aria-checked="true" data-mode="none">不响应</button>
+                <button type="button" role="radio" aria-checked="false" data-mode="move">飞过去</button>
+                <button type="button" role="radio" aria-checked="false" data-mode="point">用星星指出</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="board" id="dash" aria-labelledby="dash-title">
+          <header class="board-head">
+            <h2 id="dash-title">本周数据</h2>
+            <p class="muted">讲解汇报时，星宝会用红色细激光快速点两下，提示你关注对应的数据。</p>
+          </header>
+          <div class="board-grid">
+            <figure class="chart" id="chart-week">
+              <figcaption><span>每日完成任务数</span><b>共 18 个</b></figcaption>
+              <div class="bars" role="img" aria-label="周一 3 个，周二 4 个，周三 6 个，周四 3 个，周五 2 个">
+                  <div class="bar" id="bar-mon" style="--v: 3">
+                    <span class="bar-val">3</span><span class="bar-fill"></span><span class="bar-day">周一</span>
+                  </div>
+                  <div class="bar" id="bar-tue" style="--v: 4">
+                    <span class="bar-val">4</span><span class="bar-fill"></span><span class="bar-day">周二</span>
+                  </div>
+                  <div class="bar is-peak" id="bar-wed" style="--v: 6">
+                    <span class="bar-val">6</span><span class="bar-fill"></span><span class="bar-day">周三</span>
+                  </div>
+                  <div class="bar" id="bar-thu" style="--v: 3">
+                    <span class="bar-val">3</span><span class="bar-fill"></span><span class="bar-day">周四</span>
+                  </div>
+                  <div class="bar" id="bar-fri" style="--v: 2">
+                    <span class="bar-val">2</span><span class="bar-fill"></span><span class="bar-day">周五</span>
+                  </div>
+              </div>
+            </figure>
+            <figure class="chart" id="chart-trend">
+              <figcaption><span>近 6 周任务完成率</span><b>72%</b></figcaption>
+              <svg viewBox="0 0 320 162" role="img" aria-label="完成率从 W19 的 48% 升到 W24 的 72%，W21 小幅回落到 52%">
+                <g class="grid">
+                  <line x1="34" x2="314" y1="20" y2="20" />
+                  <line x1="34" x2="314" y1="75" y2="75" />
+                  <line x1="34" x2="314" y1="130" y2="130" />
+                </g>
+                <g class="ticks">
+                  <text x="28" y="23" text-anchor="end">80%</text>
+                  <text x="28" y="78" text-anchor="end">60%</text>
+                  <text x="28" y="133" text-anchor="end">40%</text>
+                </g>
+                <path class="area" d="M40 130 L40 108 L94 88.75 L148 97 L202 72.25 L256 58.5 L310 42 L310 130 Z" />
+                <polyline class="line" points="40,108 94,88.75 148,97 202,72.25 256,58.5 310,42" />
+                  <circle id="pt-w19" cx="40" cy="108" r="4" />
+                  <circle id="pt-w20" cx="94" cy="88.75" r="4" />
+                  <circle id="pt-w21" cx="148" cy="97" r="4" />
+                  <circle id="pt-w22" cx="202" cy="72.25" r="4" />
+                  <circle id="pt-w23" cx="256" cy="58.5" r="4" />
+                  <circle id="pt-w24" cx="310" cy="42" r="5" class="is-last" />
+                <text class="val" x="300" y="34" text-anchor="end">72%</text>
+                <g class="ticks">
+                    <text x="40" y="152" text-anchor="middle">W19</text>
+                    <text x="94" y="152" text-anchor="middle">W20</text>
+                    <text x="148" y="152" text-anchor="middle">W21</text>
+                    <text x="202" y="152" text-anchor="middle">W22</text>
+                    <text x="256" y="152" text-anchor="middle">W23</text>
+                    <text x="310" y="152" text-anchor="middle">W24</text>
+                </g>
+              </svg>
+            </figure>
+          </div>
+        </section>
+
+        <div class="spots">
+          <article class="spot" id="spot-progress" data-spot="本周进度">
+            <header>
+              <h2>本周进度</h2>
+              <span class="tag">迭代 24</span>
+            </header>
+            <div class="progress">
+              <div class="progress-num"><span>72</span>%</div>
+              <div class="progress-bar" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" aria-label="本周进度">
+                <span style="width: 72%"></span>
+              </div>
+              <p class="muted">18 / 25 个任务已完成，比上周快 2 天。</p>
+            </div>
+            <button class="btn btn-ghost spot-call" type="button" data-placement="top-right">让星宝过来</button>
+          </article>
+
+          <article class="spot" id="spot-tasks" data-spot="待办事项">
+            <header>
+              <h2>待办事项</h2>
+              <span class="tag tag-warn">2 项今天到期</span>
+            </header>
+            <ul class="todo">
+              <li id="todo-due"><span class="dot dot-warn"></span>评审新版宠物表情<time>今天 16:00</time></li>
+              <li id="todo-glb"><span class="dot dot-warn"></span>导出 GLB 给移动端<time>今天 18:00</time></li>
+              <li id="todo-voice"><span class="dot"></span>补充语音朗读文案<time>周五</time></li>
+            </ul>
+            <button class="btn btn-ghost spot-call" type="button" data-placement="top">让星宝过来</button>
+          </article>
+
+          <article class="spot" id="spot-messages" data-spot="消息">
+            <header>
+              <h2>消息</h2>
+              <span class="tag">3 条未读</span>
+            </header>
+            <ul class="msgs">
+              <li><b>设计组</b>转身视图的翅膀再飘逸一点？</li>
+              <li><b>前端组</b>moveToElement 已接入导航栏。</li>
+              <li><b>产品</b>周四演示要用「卖萌」动作。</li>
+            </ul>
+            <button class="btn btn-ghost spot-call" type="button" data-placement="right">让星宝过来</button>
+          </article>
+
+          <article class="spot" id="spot-calendar" data-spot="日程">
+            <header>
+              <h2>日程</h2>
+              <span class="tag">本周四</span>
+            </header>
+            <ol class="agenda">
+              <li><time>10:00</time>宠物动作评审</li>
+              <li><time>14:30</time>语音合成联调</li>
+              <li><time>17:00</time>版本演示</li>
+            </ol>
+            <button class="btn btn-ghost spot-call" type="button" data-placement="left">让星宝过来</button>
+          </article>
+        </div>
+        <p class="footnote">星宝可以被点击、拖动、甩动（甩太猛会晕）。一分钟没有操作，它会自己去睡觉。</p>
+      </main>
+
+      <aside class="console" aria-label="控制台">
+        <section class="panel" aria-labelledby="h-talk">
+          <h2 class="panel-title" id="h-talk"><span>说话</span><small>SPEECH</small></h2>
+          <label class="sr-only" for="say-text">要说的话</label>
+          <textarea id="say-text" rows="2">你好呀！我是星宝，你的 AI 小伙伴～</textarea>
+          <div class="row">
+            <button class="btn btn-primary" id="btn-say" type="button">说出来</button>
+            <button class="btn" id="btn-stop" type="button">停止</button>
+            <label class="check"><input type="checkbox" id="opt-voice" />语音朗读</label>
+          </div>
+          <div class="chips" id="say-presets" aria-label="预设台词"></div>
+        </section>
+
+        <section class="panel" aria-labelledby="h-chat">
+          <h2 class="panel-title" id="h-chat"><span>指令</span><small>COMMAND</small></h2>
+          <form class="chat-form" id="chat-form" autocomplete="off">
+            <label class="sr-only" for="chat-input">对星宝说</label>
+            <input id="chat-input" type="text" placeholder="试试：跳个舞 / 去右上角 / 去看看待办 / 睡觉吧" />
+            <button class="btn btn-primary" type="submit">发送</button>
+          </form>
+          <ol class="chat-log" id="chat-log" aria-live="polite"></ol>
+        </section>
+
+        <section class="panel" aria-labelledby="h-expr">
+          <h2 class="panel-title" id="h-expr"><span>表情</span><small>EXPRESSIONS</small></h2>
+          <div class="grid grid-4" id="expr-grid"></div>
+          <button class="btn btn-small" id="btn-expr-reset" type="button">恢复默认表情</button>
+        </section>
+
+        <section class="panel" aria-labelledby="h-act">
+          <h2 class="panel-title" id="h-act"><span>动作</span><small>ACTIONS</small></h2>
+          <div class="grid grid-4" id="action-grid"></div>
+        </section>
+
+        <section class="panel" aria-labelledby="h-work">
+          <h2 class="panel-title" id="h-work"><span>工作 · 讲解 · 指示</span><small>WORK · REPORT · POINT</small></h2>
+
+          <div class="sub">
+            <h3 class="sub-title">努力工作、解决问题</h3>
+            <div class="row">
+              <button class="btn btn-primary" id="btn-work" type="button">开始工作</button>
+              <button class="btn" id="btn-work-fail" type="button" disabled>没解决</button>
+              <label class="check"><input type="checkbox" id="opt-work-progress" checked />面罩显示进度</label>
+            </div>
+            <p class="hint" id="work-status" aria-live="polite">进度到 100% 会自动完成，也可以随时点「完成工作」。</p>
+          </div>
+
+          <div class="sub">
+            <h3 class="sub-title">讲解汇报、解析数据</h3>
+            <div class="seg-inline" id="report-seg" role="radiogroup" aria-label="讲解内容">
+              <button type="button" role="radio" aria-checked="true" data-report="bar">本周数据</button>
+              <button type="button" role="radio" aria-checked="false" data-report="line">完成率趋势</button>
+              <button type="button" role="radio" aria-checked="false" data-report="list">待办要点</button>
+            </div>
+            <div class="row">
+              <button class="btn btn-primary" id="btn-present" type="button">开始讲解</button>
+              <button class="btn" id="btn-present-stop" type="button">停止</button>
+              <label class="check"><input type="checkbox" id="opt-present-voice" checked />语音播报</label>
+            </div>
+            <p class="hint">提到一个目标时，激光快速点两下后自动收起，讲解继续。</p>
+          </div>
+
+          <div class="sub">
+            <h3 class="sub-title">用星星指出位置</h3>
+            <div class="row point-row">
+              <label class="xy" for="point-x">x</label>
+              <input type="number" id="point-x" inputmode="numeric" />
+              <label class="xy" for="point-y">y</label>
+              <input type="number" id="point-y" inputmode="numeric" />
+              <button class="btn btn-primary" id="btn-point" type="button">指出这里</button>
+            </div>
+            <div class="row">
+              <button class="btn" id="btn-point-todo" type="button">指出到期待办</button>
+              <button class="btn" id="btn-point-progress" type="button">指出进度条</button>
+            </div>
+            <p class="hint">激光快速点两下后自动收起。也可以在左侧选择「用星星指出」，然后直接点页面。</p>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="h-move">
+          <h2 class="panel-title" id="h-move"><span>移动</span><small>MOVE TO</small></h2>
+          <div class="move-wrap">
+            <div class="pad" id="move-pad" aria-label="飞到页面区域"></div>
+            <div class="move-side">
+              <label class="field">
+                <span>落脚卡片</span>
+                <select id="spot-select"></select>
+              </label>
+              <label class="field">
+                <span>停靠位置</span>
+                <select id="placement-select">
+                  <option value="top">上方</option>
+                  <option value="top-right">右上角</option>
+                  <option value="right">右侧</option>
+                  <option value="left">左侧</option>
+                  <option value="bottom">下方</option>
+                  <option value="inside-top-right">卡片内</option>
+                </select>
+              </label>
+              <div class="row">
+                <button class="btn btn-primary" id="btn-go-spot" type="button">飞过去</button>
+                <button class="btn" id="btn-wander" type="button">随便逛逛</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="h-rest">
+          <h2 class="panel-title" id="h-rest"><span>休息</span><small>REST</small></h2>
+          <div class="row">
+            <button class="btn btn-primary" id="btn-rest" type="button">休息一下</button>
+            <button class="btn" id="btn-wake" type="button">叫醒它</button>
+          </div>
+          <label class="field field-range">
+            <span>无操作自动入睡 <output id="sleep-out">60 秒</output></span>
+            <input type="range" id="sleep-range" min="0" max="180" step="10" value="60" />
+          </label>
+        </section>
+
+        <section class="panel" aria-labelledby="h-view">
+          <h2 class="panel-title" id="h-view"><span>视角与行为</span><small>TURNAROUND</small></h2>
+          <div class="segmented" id="view-seg" role="radiogroup" aria-label="展示视角">
+            <button type="button" role="radio" aria-checked="true" data-view="front">正面</button>
+            <button type="button" role="radio" aria-checked="false" data-view="threeQuarter">3/4</button>
+            <button type="button" role="radio" aria-checked="false" data-view="side">侧面</button>
+            <button type="button" role="radio" aria-checked="false" data-view="back">背面</button>
+          </div>
+          <div class="toggles">
+            <label class="check"><input type="checkbox" id="opt-follow" checked />视线跟随鼠标</label>
+            <label class="check"><input type="checkbox" id="opt-auto" checked />自主行为（闲逛、发呆、犯困）</label>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="h-model">
+          <h2 class="panel-title" id="h-model"><span>模型</span><small>MODEL</small></h2>
+          <dl class="specs" id="model-specs">
+            <div><dt>来源</dt><dd id="spec-source">—</dd></div>
+            <div><dt>网格</dt><dd id="spec-meshes">—</dd></div>
+            <div><dt>三角面</dt><dd id="spec-tris">—</dd></div>
+            <div><dt>文件</dt><dd id="spec-url">—</dd></div>
+          </dl>
+          <button class="btn btn-small" id="btn-export" type="button">导出 GLB</button>
+        </section>
+
+        <section class="panel" aria-labelledby="h-log">
+          <h2 class="panel-title" id="h-log"><span>事件</span><small>EVENTS</small></h2>
+          <ol class="log" id="event-log"></ol>
+        </section>
+      </aside>
+    </div>
+
+  </body>
+</html>

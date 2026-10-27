@@ -1,0 +1,1 @@
+import{A as e}from"./AIPet-CK3-1L_o.js";const a=new e({modelUrl:"../models/ai-pet.glb",size:140});await a.ready;a.play("wave");await a.say("你好！我是星宝～");await a.moveToElement("#target",{placement:"top"});await a.play("cute");a.say("到啦！");
